@@ -93,4 +93,5 @@ cursor.execute('''INSERT INTO TABLE cassettes-8spd
                (72, "SRAM", "PG820", "FW821128", 8, "11-28", "Mackadams", 18.00, 5)
                (73, "SRAM", "PG820", "FW821130", 8, "11-30", "Mackadams", 18.00, 5)
                (74, "SRAM", "PG820", "FW821132", 8, "11-32", "Mackadams", 18.00, 5)
+               (75, "Tektro", "ED-8", "TK-ABCS000001", 8, "11-42", "Upgrade", 70.00, 7)
                ''')

@@ -17,7 +17,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes-10spd
                FOREIGN KEY (distributor_id) REFERENCES DISTRIBUTOR (distributor_id))''')
 
 cursor.execute('''INSERT INTO TABLE cassettes-10spd
-               (id, brand, model, partNumber, speed, ratio, distributors, rrp)
+               (id, brand, model, partNumber, speed, ratio, distributors, rrp, distributor_id)
                VALUES
                (1, "Shimano", "5700", "21590", 10, "11-28", "Bob-Elliot", 54.99, 1)
                (2, "Shimano", "M4100", "25269", 10, "11-46", "Bob-Elliot", 59.99, 1)

@@ -17,7 +17,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes-10spd
                FOREIGN KEY (distributor_id) REFERENCES DISTRIBUTOR (distributor_id))''')
 
 cursor.execute('''INSERT INTO TABLE cassettes-10spd
-               (id, brand, model, partNumber, speed, ratio, distributors, rrp)
+               (id, brand, model, partNumber, speed, ratio, distributors, rrp, distributor_id)
                VALUES
                (1, "Shimano", "5700", "21590", 10, "11-28", "Bob-Elliot", 54.99, 1)
                (2, "Shimano", "M4100", "25269", 10, "11-46", "Bob-Elliot", 59.99, 1)
@@ -157,6 +157,8 @@ cursor.execute('''INSERT INTO TABLE cassettes-10spd
                (137, "SRAM", "PG1070", "FWS171232", 10, "12-32", "ZyroFisher", 91.00, 7)
                (138, "SRAM", "PG1070", "FWS171236", 10, "12-36", "ZyroFisher", 91.00, 7)
                (139, "Clarks", "", "C-10SC", 10, "11-36", "ZyroFisher", 39.99, 7)
+               (140, "Microshift", "Advent", "CSMSG10148", 10, "11-48", "Ison Distribution", 74.99, 4)
+               (141, "Microshift", "Sword", "CSMSG10138", 10, "11-38", "Ison Distribution", 79.99, 4)
                ''')
 
 connect.commit()

@@ -17,7 +17,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes-8spd
                FOREIGN KEY (distributor_id) REFERENCES DISTRIBUTOR (distributor_id))''')
 
 cursor.execute('''INSERT INTO TABLE cassettes-8spd 
-               (id, brand, model, partNumber, speed, ratio, distributors, rrp)
+               (id, brand, model, partNumber, speed, ratio, distributors, rrp, distributor_id)
                VALUES
                (1, "Shimano", "HG400", "CSHG4008145", 8, "11-45", "Madison", 36.99, 6)
                (2, "Shimano", "HG400", "CSHG4008140", 8, "11-40", "Madison", 34.99, 6)
@@ -94,4 +94,13 @@ cursor.execute('''INSERT INTO TABLE cassettes-8spd
                (73, "SRAM", "PG820", "FW821130", 8, "11-30", "Mackadams", 18.00, 5)
                (74, "SRAM", "PG820", "FW821132", 8, "11-32", "Mackadams", 18.00, 5)
                (75, "Tektro", "ED-8", "TK-ABCS000001", 8, "11-42", "Upgrade", 70.00, 7)
+               (76, "Microshift", "R8", "CSMSH8128", 9, "11-28", "Ison Distribution", 24.99, 4)
+               (77, "Microshift", "Mezzo", "CSMSH8132", 9, "11-32", "Ison Distribution", 24.99, 4)
+               (78, "Microshift", "Mezzo", "CSMSH8134", 9, "11-34", "Ison Distribution", 24.99, 4)
+               (79, "Microshift", "Acolyte", "CSMSH8138", 9, "11-38", "Ison Distribution", 29.99, 4)
+               (80, "Microshift", "Acolyte", "CSMSH8242", 9, "12-42", "Ison Distribution", 34.99, 4)
+               (81, "Microshift", "Acolyte", "CSMSH8246", 9, "12-46", "Ison Distribution", 39.99, 4)
                ''')
+
+connect.close()
+connect.close()

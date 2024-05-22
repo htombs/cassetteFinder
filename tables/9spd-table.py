@@ -123,8 +123,14 @@ cursor.execute('''INSERT INTO TABLE cassettes-9spd
                (102, "SRAM", "PG970", "FW971134", 9, "11-34", "ZyroFisher", 45.00, 8)
                (103, "SRAM", "PG970", "FW971226", 9, "12-26", "ZyroFisher", 68.00, 8)
                (104, "Clarks", "N/A", "C-9SC", 9, "11-32", "ZyroFisher", 28.99, 8)
+               (105, "Microshift", "H092 H-series", "CSMSH9128", 9, "11-28", "Ison Distribution", 27.99, 4)
+               (106, "Microshift", "H092 H-series", "CSMSH9134", 9, "11-34", "Ison Distribution", 27.99, 4)
+               (107, "Microshift", "H092 H-series", "CSMSH9136", 9, "11-36", "Ison Distribution", 27.99, 4)
+               (108, "Microshift", "Advent", "CSMSH9142A", 9, "11-42", "Ison Distribution", 47.99, 4)
+               (109, "Microshift", "Advent", "CSMSH9138", 9, "11-38", "Ison Distribution", 39.99, 4)
+               (110, "Microshift", "Advent", "CSMSH9142", 9, "11-42", "Ison Distribution", 39.99, 4)
+               (111, "Microshift", "Advent", "CSMSH9146", 9, "11-46", "Ison Distribution", 47.99, 4)
                ''')
 
 connect.commit()
 connect.close()
-

@@ -5,9 +5,9 @@ cursor = connect.cursor()
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS distributor (distributor id INT PRIMARY KEY, distributor VARCHAR(255))''')
 
-cursor.execute('''INSERT INTO TABLE distributor (distributor_id, ditributor)
+cursor.execute('''INSERT INTO distributor (distributor_id, ditributor)
                VALUES
-               (1, Bob-Elliot)
+               (1, Bob Elliot)
                (2, Chicken Cyclekit)
                (3, Greyville)
                (4, Ison Distribution)

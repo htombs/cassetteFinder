@@ -162,4 +162,6 @@ cursor.execute('''INSERT INTO TABLE cassettes-10spd
                ''')
 
 connect.commit()
-connect.close()
+
+res = cur.execute("SELECT brand FROM 10spd-table")
+res.fetchall()

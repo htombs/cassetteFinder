@@ -1,6 +1,8 @@
 import sqlite3
+from .database import connect_database
 
-connect = sqlite3.connect('cassette_finder.db')
+connect = connect_database()
+
 connect.execute("PRAGMA foreign_keys = 1")
 
 cursor = connect.cursor()
@@ -16,6 +18,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes_8spd
                rrp DECIMAL(10,2),
                distributor_id INT,
                FOREIGN KEY (distributor_id) REFERENCES distributor_table (distributor_id))''')
+connect.commit()
 
 data = [
     (1, "Shimano", "HG400", "CSHG4008145", 8, "11\-45", "Madison", 36.99, 6),
@@ -100,18 +103,18 @@ data = [
     (80, "Microshift", "Acolyte", "CSMSH8242", 9, "12\-42", "Ison Distribution", 34.99, 4),
     (81, "Microshift", "Acolyte", "CSMSH8246", 9, "12\-46", "Ison Distribution", 39.99, 4)]
 
-cursor.executemany("INSERT INTO cassettes_8spd VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
+cursor.executemany("REPLACE INTO cassettes_8spd VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
 
 connect.commit()
 
-def get_distributor_8spd(connect, distributor: str):
+def get_distributor_8spd(distributor: str):
+    print(distributor)
     cursor = connect.cursor()
-    cursor.excecute('''SELECT * 
-        FROM cassettes_8spd
-        WHERE distributor="${distributor}"''')
+    result = cursor.execute("SELECT * FROM cassettes_8spd WHERE distributor=?", [distributor])
 
-    rows = cursor.fetchall()
+    rows = result.fetchall()
     connect.close()
+    print(rows)
 
     for row in rows:
         print(row)

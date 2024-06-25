@@ -1,11 +1,12 @@
-import sqlite3
 
-connect = sqlite3.connect('cassette_finder.db')
+from .database import connect_database
+
+connect = connect_database()
 cursor = connect.cursor()
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS distributor_table (distributor_id INT PRIMARY KEY, distributor_name VARCHAR(255))''')
 
-cursor.execute('''INSERT INTO distributor_table (distributor_id, ditributor_name)
+cursor.execute('''REPLACE INTO distributor_table (distributor_id, distributor_name)
                VALUES
                (1, "Bob Elliot"),
                (2, "Chicken Cyclekit"),

@@ -117,7 +117,6 @@ def get_distributor_8spd(connect, distributor: str):
         print(row)
 
 connect.commit()
-connect.close()
 
 # def get_bobelliot_8spd(conn: Connection):
 #     cursor = conn.cursor()

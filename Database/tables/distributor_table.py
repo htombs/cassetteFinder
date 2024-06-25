@@ -19,8 +19,3 @@ cursor.execute('''REPLACE INTO distributor_table (distributor_id, distributor_na
                ''')
 
 connect.commit()
-
-# def get_table():
-#     cursor.execute('''SELECT * FROM db.sqlite_master WHERE type='table';''')
-
-# get_table()

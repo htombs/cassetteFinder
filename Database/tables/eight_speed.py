@@ -98,12 +98,12 @@ def insertEightSpeedData():
         (73, "SRAM", "PG820", "FW821130", 8, "11-30", "Mackadams", 18.00, 5),
         (74, "SRAM", "PG820", "FW821132", 8, "11-32", "Mackadams", 18.00, 5),
         (75, "Tektro", "ED-8", "TK-ABCS000001", 8, "11-42", "Upgrade", 70.00, 7),
-        (76, "Microshift", "R8", "CSMSH8128", 9, "11-28", "Ison Distribution", 24.99, 4),
-        (77, "Microshift", "Mezzo", "CSMSH8132", 9, "11-32", "Ison Distribution", 24.99, 4),
-        (78, "Microshift", "Mezzo", "CSMSH8134", 9, "11-34", "Ison Distribution", 24.99, 4),
-        (79, "Microshift", "Acolyte", "CSMSH8138", 9, "11-38", "Ison Distribution", 29.99, 4),
-        (80, "Microshift", "Acolyte", "CSMSH8242", 9, "12-42", "Ison Distribution", 34.99, 4),
-        (81, "Microshift", "Acolyte", "CSMSH8246", 9, "12-46", "Ison Distribution", 39.99, 4)]
+        (76, "Microshift", "R8", "CSMSH8128", 8, "11-28", "Ison Distribution", 24.99, 4),
+        (77, "Microshift", "Mezzo", "CSMSH8132", 8, "11-32", "Ison Distribution", 24.99, 4),
+        (78, "Microshift", "Mezzo", "CSMSH8134", 8, "11-34", "Ison Distribution", 24.99, 4),
+        (79, "Microshift", "Acolyte", "CSMSH8138", 8, "11-38", "Ison Distribution", 29.99, 4),
+        (80, "Microshift", "Acolyte", "CSMSH8242", 8, "12-42", "Ison Distribution", 34.99, 4),
+        (81, "Microshift", "Acolyte", "CSMSH8246", 8, "12-46", "Ison Distribution", 39.99, 4)]
 
     cursor.executemany("REPLACE INTO cassettes_8spd VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
 
@@ -112,288 +112,55 @@ def insertEightSpeedData():
 def get_distributor_8spd(distributor: str):
     print(distributor)
     cursor = connect.cursor()
-    result = cursor.execute("SELECT * FROM cassettes_8spd WHERE distributor=?", [distributor])
+    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE distributor=?", [distributor])
 
     rows = result.fetchall()
     connect.close()
-    print(rows)
+    #print(rows)
 
     for row in rows:
         print(row)
 
 connect.commit()
 
-# def get_bobelliot_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE distributor="Bob-Elliot''')
+def get_brand_8spd(brand: str):
+    print(brand)
+    cursor = connect.cursor()
+    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE brand=?", [brand])
 
-#     rows = cursor.fetchall()
-#     connect.close()
+    rows = result.fetchall()
+    connect.close()
+    #print(rows)
 
-#     for row in rows:
-#         print(row)
+    for row in rows:
+        print(row)
 
-# def get_greyville_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE distributor="Greyville''')
+connect.commit()
 
-#     rows = cursor.fetchall()
-#     connect.close()
+def get_speed_8spd(speed: int):
+    print(speed)
+    cursor = connect.cursor()
+    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE speed=?", [speed])
 
-#     for row in rows:
-#         print(row)
+    rows = result.fetchall()
+    connect.close()
+    # print(rows)
 
-# def get_isondistribution_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE distributor="Ison Distribution''')
+    for row in rows:
+        print(row)
 
-#     rows = cursor.fetchall()
-#     connect.close()
+connect.commit()
 
-#     for row in rows:
-#         print(row)
+def get_ratio_8spd(ratio: str):
+    print(ratio)
+    cursor = connect.cursor()
+    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE ratio=?", [ratio])
 
-# def get_mackadams_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE distributor="Mackadams''')
+    rows = result.fetchall()
+    connect.close()
+    # print(rows)
 
-#     rows = cursor.fetchall()
-#     connect.close()
+    for row in rows:
+        print(row)
 
-#     for row in rows:
-#         print(row)
-
-# def get_madison_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE distributor="Madison''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_upgrade_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE distributor="Upgrade''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_zyrofisher_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE distributor="ZyroFisher''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_any_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_box_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="Box"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_campagnolo_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="Campagnolo"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_clarks_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="Clarks"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_geardrive_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="Geardrive"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_gtb_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="GTB"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_kmc_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="KMC"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_miche_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="Miche"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_sride_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="S-Ride"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_shimano_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.execute('''SELECT * 
-#         FROM 8spd-table 
-#         WHERE brand="shimano"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_sram_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="SRAM"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_sunrace_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="Sunrace"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_tektro_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="Tektro"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_tifosi_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="Tifosi"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_trp_8spd(conn: Connection):
-#     cursor = conn.cursor()
-#     cursor.excecute('''SELECT * 
-#         FROM 8spd-table
-#         WHERE brand="TRP"''')
-
-#     rows = cursor.fetchall()
-#     connect.close()
-
-#     for row in rows:
-#         print(row)
-
-# def get_unbranded_8spd(conn: Connection):
-    # cursor = conn.cursor()
-    # cursor.excecute('''SELECT * 
-    #     FROM 8spd-table
-    #     WHERE brand="UNBRANDED"''')
-
-    # rows = cursor.fetchall()
-    # connect.close()
-
-    # for row in rows:
-    #     print(row)
+connect.commit()

@@ -1,22 +1,21 @@
 from flask import Flask, request, jsonify
-# from Database.cassette_finder_script import get_brand_8spd
+from Database.cassette_finder_script import get_brand_8spd
 
 app = Flask(__name__)
 
-cassettes = [
-    { "brand": "shamano",
-     "model": "HG400",
-     "RRP": 36.99}
-     ]
-
 @app.route("/")
-def get_cassettes():
-    return jsonify(f"{cassettes}".title())
+def cassettes_list():
+    return jsonify(get_brand_8spd())
 
+# cassettes = [
+#     { "brand": "shamano",
+#      "model": "HG400",
+#      "RRP": 36.99}
+#      ]
 
 # @app.route("/")
-# def cassettes_list():
-#     return jsonify(get_brand_8spd())
+# def get_cassettes():
+#     return jsonify(f"{cassettes}".title())
 
 # @app.route('/cassettes/', method=['POST'])
 # def add_cassettes():

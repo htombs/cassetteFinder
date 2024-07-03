@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify
-from Database.cassette_finder_script import get_brand_8spd
+from Database.tables.eight_speed import get_brand_8spd
 
 app = Flask(__name__)
 
 @app.route("/")
 def cassettes_list():
-    return jsonify(get_brand_8spd())
+    return jsonify(get_brand_8spd("Shimano"))
 
 # cassettes = [
 #     { "brand": "shamano",

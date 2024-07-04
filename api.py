@@ -3,9 +3,11 @@ from Database.tables.eight_speed import get_brand_8spd
 
 app = Flask(__name__)
 
+cassettes = get_brand_8spd("SRAM")
+
 @app.route("/")
 def cassettes_list():
-    return jsonify(get_brand_8spd("Shimano"))
+    return jsonify(f"{cassettes}")
 
 # cassettes = [
 #     { "brand": "shamano",

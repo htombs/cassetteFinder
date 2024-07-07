@@ -1,0 +1,24 @@
+# Ignore Everything!
+*
+
+#Except these top-level hidden files
+!/.gitignore
+
+# Except these types of files
+!*.py
+!*.css
+!*.js
+!*.html
+!*.txt
+!*.md
+!*.nix
+
+# include rules in sub directories
+!*/
+
+# Explicitly ignore these files & folders
+# even if they match the rules above.
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]

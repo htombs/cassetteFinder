@@ -49,6 +49,3 @@ get_distributor_11spd_all("*")
 get_brand_11spd_all("*")
 get_speed_11spd_all("*")
 get_ratio_11spd_all("*")
-
-def get_brands_all(brand):
-    return get_brand_8spd_all(brand), get_brand_9spd_all(brand), get_brand_10spd_all(brand), get_brand_11spd_all(brand)

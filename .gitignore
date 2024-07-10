@@ -12,6 +12,8 @@
 !*.txt
 !*.md
 !*.nix
+!*.db
+
 
 # include rules in sub directories
 !*/

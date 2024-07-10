@@ -37,6 +37,20 @@ def ratio_list(ratio):
     return jsonify(["11-36", "11-48", "11-52"])
 
 
+@app.route("/speeds", defaults={'speed': '10'})
+@app.route("/speeds/<speed>")
+def speeds(speed):
+    if speed == '8':
+        return jsonify(get_brand_8spd("Shimano"))
+    elif speed == '9':
+        return jsonify(get_brand_9spd("Shimano"))
+    elif speed == '10':
+        return jsonify(get_brand_10spd("Shimano"))
+    elif speed == '11':
+        return jsonify(get_brand_11spd("Shimano"))
+    else:
+        return jsonify({message: "no more speeds bro"})
+
 # cassettes = [
 #     { "brand": "shamano",
 #      "model": "HG400",

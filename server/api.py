@@ -1,5 +1,9 @@
 from flask import Flask, jsonify
-from database.tables.eight_speed import get_brand_8spd
+from database.cassette_finder_script import get_brand_8spd, get_brand_9spd, get_brand_10spd, get_brand_11spd, get_brand_8spd_all, get_brand_9spd_all, get_brand_10spd_all, get_brand_11spd_all
+# from database.cassette_finder_script import get_distributor_8spd, get_distributor_9spd, get_distributor_10spd, get_distributor_11spd
+# from database.cassette_finder_script import get_speed_8spd, get_speed_9spd, get_speed_10spd, get_speed_11spd
+# from database.cassette_finder_script import get_ratio_8spd, get_ratio_9spd, get_ratio_10spd, get_ratio_11spd
+from database.cassette_finder_script import get_brands_all
 
 app = Flask(__name__)
 
@@ -16,11 +20,13 @@ def home():
 # but
 #   localhost:5000/brands/Madison will set the "brand" variable as "Madison"
 
-@app.route("/brands", defaults={'brand': "Shimano"})
+@app.route("/brands")
+def brand_home():
+    return jsonify({"Message": "Pick a brand"})
 @app.route("/brands/<brand>")
 def brands_list(brand):
     print(f"Brand query: {brand}")
-    return jsonify(get_brand_8spd(brand))
+    return jsonify(get_brands_all(brand))
 
 # The defaults is what the "ratio" parameter in the function will be set to
 # if the user does not add a parameter to the url.
@@ -37,35 +43,21 @@ def ratio_list(ratio):
     return jsonify(["11-36", "11-48", "11-52"])
 
 
-@app.route("/speeds", defaults={'speed': '10'})
+@app.route("/speeds")
+def speed_home():
+    return jsonify({"message": "Choose a speed"})
 @app.route("/speeds/<speed>")
 def speeds(speed):
     if speed == '8':
-        return jsonify(get_brand_8spd("Shimano"))
+        return jsonify(get_brand_8spd_all("*"))
     elif speed == '9':
-        return jsonify(get_brand_9spd("Shimano"))
+        return jsonify(get_brand_9spd_all("*"))
     elif speed == '10':
-        return jsonify(get_brand_10spd("Shimano"))
+        return jsonify(get_brand_10spd_all("*"))
     elif speed == '11':
-        return jsonify(get_brand_11spd("Shimano"))
+        return jsonify(get_brand_11spd_all("*"))
     else:
-        return jsonify({message: "no more speeds bro"})
-
-# cassettes = [
-#     { "brand": "shamano",
-#      "model": "HG400",
-#      "RRP": 36.99}
-#      ]
-
-# @app.route("/")
-# def get_cassettes():
-#     return jsonify(f"{cassettes}".title())
-
-# @app.route('/cassettes/', method=['POST'])
-# def add_cassettes():
-#     cassettes.append(request.get_json())
-#     return '', 204
-
+        return jsonify({"message: no more speeds bro"})
 
 if __name__ == "__main__":
     app.run(debug=True)

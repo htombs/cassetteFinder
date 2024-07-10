@@ -1,13 +1,9 @@
 import sqlite3
 from .database import connect_database
 
-connect = connect_database()
-
-connect.execute("PRAGMA foreign_keys = 1")
-
-cursor = connect.cursor()
-
 def createTenSpeedTable():
+    connect = connect_database()
+    cursor = connect.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes_10spd 
                (id INT PRIMARY KEY, 
                brand VARCHAR(255), 
@@ -20,8 +16,11 @@ def createTenSpeedTable():
                distributor_id INT,
                FOREIGN KEY (distributor_id) REFERENCES distributor_table (distributor_id))''')
     connect.commit()
+    connect.commit()
 
 def insertTenSpeedData():
+    connect = connect_database()
+    cursor = connect.cursor()
     data = [
         (1, "Shimano", "5700", "21590", 10, "11-28", "Bob-Elliot", 54.99, 1),
         (2, "Shimano", "M4100", "25269", 10, "11-46", "Bob-Elliot", 59.99, 1),
@@ -167,59 +166,98 @@ def insertTenSpeedData():
     cursor.executemany("REPLACE INTO cassettes_10spd VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
 
     connect.commit()
+    connect.close()
+
+def get_distributor_10spd_all(distributor: str):
+    connect = connect_database()
+    cursor = connect.cursor()
+    print(distributor)
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd")
+
+    rows = result.fetchall()
+    connect.close()
+    return rows
 
 def get_distributor_10spd(distributor: str):
-    print(distributor)
+    connect = connect_database()
     cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE distributor=?", [distributor])
+    print(distributor)
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE distributor=?", [distributor])
 
     rows = result.fetchall()
     connect.close()
-    #print(rows)
+    return rows
 
-    for row in rows:
-        print(row)
-
-connect.commit()
-
-def get_brand_10spd(brand: str):
+def get_brand_10spd_all(brand: str):
+    connect = connect_database()
+    cursor = connect.cursor()
     print(brand)
     cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE brand=?", [brand])
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd")
 
     rows = result.fetchall()
     connect.close()
-    #print(rows)
+    return rows
 
-    for row in rows:
-        print(row)
+def get_brand_10spd(brand: str):
+    connect = connect_database()
+    cursor = connect.cursor()
+    print(brand)
+    cursor = connect.cursor()
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE brand=?", [brand])
 
-connect.commit()
+    rows = result.fetchall()
+    connect.close()
+    return rows
 
-def get_speed_10spd(speed: int):
+def get_speed_10spd_all(speed: int):
+    connect = connect_database()
+    cursor = connect.cursor()
     print(speed)
     cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE speed=?", [speed])
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd")
 
     rows = result.fetchall()
     connect.close()
-    # print(rows)
+    return rows
 
-    for row in rows:
-        print(row)
+def get_speed_10spd(speed: int):
+    connect = connect_database()
+    cursor = connect.cursor()
+    print(speed)
+    cursor = connect.cursor()
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE speed=?", [speed])
 
-connect.commit()
+    rows = result.fetchall()
+    connect.close()
+    return rows
 
-def get_ratio_10spd(ratio: str):
+def get_ratio_10spd_all(ratio: str):
+    connect = connect_database()
+    cursor = connect.cursor()
     print(ratio)
     cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE ratio=?", [ratio])
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd")
 
     rows = result.fetchall()
     connect.close()
-    # print(rows)
+    return rows
 
-    for row in rows:
-        print(row)
+def get_ratio_10spd(ratio: str):
+    connect = connect_database()
+    cursor = connect.cursor()
+    print(ratio)
+    cursor = connect.cursor()
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE ratio=?", [ratio])
 
-connect.commit()
+    rows = result.fetchall()
+    connect.close()
+    return rows

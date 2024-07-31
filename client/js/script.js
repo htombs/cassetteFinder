@@ -1,24 +1,22 @@
 const apiurl = 'http://127.0.0.1:5000';
-const outputElement = document.getElementById('output');
 
+const outputElement = document.getElementById('output');
+const cassette_Selector = document.getElementById('cassette_Selector');
+
+const requestOptions = {
+    method: 'GET',
+    mode: "no-cors"
+};
 function show_results(){
-    fetch(apiurl)
+    fetch(apiurl, requestOptions)
         .then(response => {
-            if (!response.ok) {
-                if (response.status === 404) {
-                    throw new Error('Data not found');
-                }   else if (response.status === 500) {
-                    throw new Error('Server error');
-                }   else {
-                    throw new Error('Network response was not ok');
-                }
-            }
+            console.log(response);
             return response.json();
         })
-        .then(data=> {
-            outputElement.textContent = JSON.stringify(data, null, 2);
+        .then(data => {
+            console.log(data);
         })
-        .catch(error => {
-            console.eroor('Error:', error);
-        });
-}
+        // .catch(error => {
+        //     console.error('Error:', error);
+        // });
+    }

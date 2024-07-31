@@ -20,46 +20,52 @@ def distributor_list(distributor):
     print(f"Distributor query: {distributor}")
     return jsonify(get_distributor_8spd(distributor), get_distributor_9spd(distributor), get_distributor_10spd(distributor), get_distributor_11spd(distributor))
 
+# THIS NEEDS FIXING!!! ALL OTHERS NEED FUNCTIONS FOR WHEN THE "ANY" OPTION IS SELECTED
+# @app.route("/distributor/any")
+# def distributor_any(distributor):
+#     print(f"Distributor Query: {distributor}")
+#     return jsonify(get_distributor_8spd_all(distributor), get_distributor_9spd_all(distributor), get_distributor_10spd_all(distributor), get_distributor_11spd_all(distributor))
+
 @app.route("/brands")
 def brand_home():
     return jsonify({"message": "Pick a Brand"})
+
 @app.route("/brands/<brand>")
 def brands_list(brand):
     print(f"Brand query: {brand}")
     return jsonify(get_brand_8spd(brand), get_brand_9spd(brand), get_brand_10spd(brand), get_brand_11spd(brand))
 
-# The defaults is what the "ratio" parameter in the function will be set to
-# if the user does not add a parameter to the url.
-# for example:
-#   localhost:5000/ratios will set the "ratio" variable as 11-52
-# but
-#   localhost:5000/ratios/11-36 will set the "ratio" variable as 11-36
-
-
 @app.route("/ratio")
 def ratio_home():
     return jsonify({"message": "Pick a Ratio"})
+
 @app.route("/ratio/<ratio>")
 def ratio_list(ratio):
     print(f"Ratio Query: {ratio}")
     return jsonify(get_ratio_8spd(ratio), get_ratio_9spd(ratio), get_ratio_10spd(ratio), get_ratio_11spd(ratio))
 
-
-@app.route("/speeds")
+@app.route("/speed")
 def speed_home():
     return jsonify({"message": "Pick a Speed"})
-@app.route("/speeds/<speed>")
-def speeds(speed):
-    if speed == '8':
-        return jsonify(get_brand_8spd_all("*"))
-    elif speed == '9':
-        return jsonify(get_brand_9spd_all("*"))
-    elif speed == '10':
-        return jsonify(get_brand_10spd_all("*"))
-    elif speed == '11':
-        return jsonify(get_brand_11spd_all("*"))
-    else:
-        return jsonify({"message: no more speeds bro"})
+
+@app.route("/speed/<speed>")
+def speed_list(speed):
+    print(f"Speed Query: {speed}")
+    return jsonify(get_speed_8spd(speed), get_speed_9spd(speed), get_speed_10spd(speed), get_speed_11spd(speed))
+
+# This is another way to run this function
+# @app.route("/speed/<speed>")
+# def speed_list(speed):
+#     if speed == '8':
+#         return jsonify(get_brand_8spd_all("*"))
+#     elif speed == '9':
+#         return jsonify(get_brand_9spd_all("*"))
+#     elif speed == '10':
+#         return jsonify(get_brand_10spd_all("*"))
+#     elif speed == '11':
+#         return jsonify(get_brand_11spd_all("*"))
+#     else:
+#         return jsonify({"message: no more speeds bro"})
 
 if __name__ == "__main__":
     app.run(debug=True)

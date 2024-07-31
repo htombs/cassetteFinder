@@ -8,14 +8,13 @@
     <script src="https://kit.fontawesome.com/01f26ab4ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-    </header>
+    <header>Cassette<span>Finder</span></header>
     <main>
-        <header>Cassette<span>Finder</span></header>
-        <h4>Use the dropdown boxes below to find the cassette you're looking for</h4>
+        <header></header>
+        <h3>Use the dropdown boxes below to find the cassette you're looking for</h3>
         <div class="select_options">
-            <form action="../js/script.js">
-                <label for="distributor">Choose a Distributor</label>
+            <form id="cassette_Selector">
+                <label for="distributor">Distributor</label>
                 <div class="dropdown">
                     <select name="distributor" id="distributor_dropdown">
                         <option value="Any" selected>-Any-</option> <!--The "selected" sets the default option when the page is loaded-->
@@ -29,7 +28,7 @@
                         <option value="ZyroFisher">ZyroFisher</option>
                     </select>
                 </div>
-                <label for="brand">Choose a Brand</label>
+                <label for="brand">Brand</label>
                 <div class="dropdown">
                     <select name="brand" id="brand_dropdown">
                         <option value="Any" selected>-Any-</option>
@@ -51,7 +50,7 @@
                         <option value="UNBRANDED">UNBRANDED</option>
                     </select>
                 </div>
-                <label for="speed">Choose a Speed</label>
+                <label for="speed">Speed</label>
                 <div class="dropdown">
                     <select name="speed" id="speed_dropdown">
                         <option value="Any" selected>-Any-</option>
@@ -61,7 +60,7 @@
                         <option value="11spd">11spd</option>
                 </select>
                 </div>
-                <label for="ratio">Choose a Ratio</label>
+                <label for="ratio">Ratio</label>
                 <div class="dropdown">
                     <select name="ratio" id="ratio_dropdown">
                         <option value="Any" selected>-Any-</option>
@@ -118,9 +117,10 @@
                 </div>
                 <br>
                 <div class="submit_button">
-                    <input type="submit" value="Submit" onclick="show_results()">
+                    <input type="submit" onclick="show_results()"></input>
                 </div>
             </form>
+            <button type="button" onclick="show_results()">test me</button>
         </div>
         <output id="output"></output>
     </main>

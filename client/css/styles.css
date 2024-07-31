@@ -5,7 +5,7 @@
   }
 
 body {
-    background-color: rgb(9, 51, 30);
+    background: -webkit-linear-gradient(rgb(7, 70, 1), rgb(8, 41, 8));
     font-weight: bold;
     font-family: "Poppins", sans-serif;
     font-size: 20px;
@@ -27,9 +27,14 @@ header {
 }
 
 .select_options {
-    display: flex;
+    /* display: flex; */
     border-bottom: 10px;
 }
+
+/* form {
+    display: flex;
+    flex-direction: row;
+} */
 
 label {
     color: white;
@@ -62,4 +67,5 @@ input {
     font-size: x-large;
     border-radius: 20px;
     padding: 20px;
+    cursor: pointer;
 }

@@ -5,13 +5,64 @@
   }
 
 body {
-    background-image: white;
+    background-color: rgb(9, 51, 30);
     font-weight: bold;
     font-family: "Poppins", sans-serif;
     font-size: 20px;
-    color: black;
+    color: white;
 }
 
-.select-options{
+header {
+    font-size: 72px;
+  background: -webkit-linear-gradient(aqua, #05f762);
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
     display: flex;
+    justify-content: left;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    font-size: 5em;
+    width: min-content;
+    text-shadow: -2px -2px 2px #3c5d3e;
+    border-bottom: 5px groove #3c5d3e;
+    border-width: 100%;
+}
+
+.select_options {
+    display: flex;
+    border-bottom: 10px;
+}
+
+label {
+    color: white;
+    text-decoration: underline;
+}
+
+select {
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 10em;
+}
+
+option {
+    font-weight: bold;
+    border-radius: 10em;
+}
+
+.dropdown {
+    padding-bottom: 40px;
+}
+
+.submit_button {
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    color: black;
+    font-weight: bold;
+    font-size: x-large;
+    border-radius: 20px;
+    padding: 20px;
 }

@@ -21,12 +21,9 @@ header {
     display: flex;
     justify-content: left;
     flex-flow: row wrap;
-    justify-content: space-around;
     font-size: 5em;
     width: min-content;
-    text-shadow: -2px -2px 2px #3c5d3e;
     border-bottom: 5px groove #3c5d3e;
-    border-width: 100%;
 }
 
 .select_options {

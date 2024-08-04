@@ -261,3 +261,16 @@ def get_ratio_10spd(ratio: str):
     rows = result.fetchall()
     connect.close()
     return rows
+
+def get_ratio_speed_10spd(ratio: str, speed: str):
+    connect = connect_database()
+    cursor = connect.cursor()
+    print(ratio, speed)
+    cursor = connect.cursor()
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE ratio=?", [ratio], [speed])
+
+    rows = result.fetchall()
+    connect.close()
+    return rows
+

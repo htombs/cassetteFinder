@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from database.cassette_finder_script import get_brand_8spd, get_brand_9spd, get_brand_10spd, get_brand_11spd, get_brand_8spd_all, get_brand_9spd_all, get_brand_10spd_all, get_brand_11spd_all
 from database.cassette_finder_script import get_distributor_8spd, get_distributor_9spd, get_distributor_10spd, get_distributor_11spd, get_distributor_8spd_all, get_distributor_9spd_all, get_distributor_10spd_all, get_distributor_11spd_all
-from database.cassette_finder_script import get_speed_8spd, get_speed_9spd, get_speed_10spd, get_speed_11spd, get_speed_8spd_all, get_speed_9spd_all, get_speed_10spd_all, get_speed_11spd_all
+from database.cassette_finder_script import get_speed_8spd, get_speed_9spd, get_speed_10spd, get_speed_11spd, get_speed_8spd_all, get_speed_9spd_all, get_speed_10spd_all, get_speed_11spd_all, get_ratio_speed_10spd
 from database.cassette_finder_script import get_ratio_8spd, get_ratio_9spd, get_ratio_10spd, get_ratio_11spd, get_ratio_8spd_all, get_ratio_9spd_all, get_ratio_10spd_all, get_ratio_11spd_all
 
 app = Flask(__name__)
@@ -52,6 +52,12 @@ def speed_home():
 def speed_list(speed):
     print(f"Speed Query: {speed}")
     return jsonify(get_speed_8spd(speed), get_speed_9spd(speed), get_speed_10spd(speed), get_speed_11spd(speed))
+
+# This function is for when multiple options are selected, needs work, currently show TypeError with missing required argument: 'speed'
+# @app.route("/ratio_speed/<ratio>/<speed>")
+# def ratio_speed_list(ratio, speed):
+#     print(f"Ratio Query: {ratio, speed}")
+#     return jsonify(get_ratio_speed_10spd(ratio, speed))
 
 # This is another way to run this function
 # @app.route("/speed/<speed>")

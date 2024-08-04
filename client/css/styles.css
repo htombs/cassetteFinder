@@ -13,7 +13,8 @@ body {
 }
 
 header {
-    font-size: 72px;
+    display: flex;
+    align-items: baseline;
   background: -webkit-linear-gradient(aqua, #05f762);
   background-clip: border-box;
   -webkit-background-clip: text;
@@ -22,8 +23,16 @@ header {
     justify-content: left;
     flex-flow: row wrap;
     font-size: 5em;
-    width: min-content;
+    /* width: min-content; */
     border-bottom: 5px groove #3c5d3e;
+}
+
+.large {
+    font-size: 74px;
+}
+
+.small {
+    font-size: 24px;
 }
 
 .select_options {
@@ -45,6 +54,7 @@ select {
     font-weight: bold;
     padding: 2px;
     border-radius: 10em;
+    cursor: pointer;
 }
 
 option {

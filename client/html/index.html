@@ -17,19 +17,19 @@
         <h3>Use the dropdown boxes below to find the cassette you're looking for</h3>
         <div class="select_options">
             <form id="cassette_Selector">
-                <label for="distributor">Distributor</label>
+                <!-- <label for="distributor">Distributor</label>
                 <div class="dropdown">
                     <select name="distributor" id="distributor_dropdown">
                         <option value="Any" selected>-Any-</option> <!--The "selected" sets the default option when the page is loaded-->
-                        <option value="Bob-Elliot">Bob-Elliot</option>
+                        <!-- <option value="Bob-Elliot">Bob-Elliot</option>
                         <option value="Chicken Cyclekit">Chicken Cyclekit</option>
                         <option value="Greyville">Greyville</option>
                         <option value="Ison Distribution">Ison Distribution</option>
                         <option value="Mackadams">Mackadams</option>
                         <option value="Madison">Madison</option>
                         <option value="Upgrade">Upgrade</option>
-                        <option value="ZyroFisher">ZyroFisher</option>
-                    </select>
+                        <option value="ZyroFisher">ZyroFisher</option> -->
+                    <!-- </select>
                 </div>
                 <label for="brand">Brand</label>
                 <div class="dropdown">
@@ -52,8 +52,8 @@
                         <option value="TRP">TRP</option>
                         <option value="UNBRANDED">UNBRANDED</option>
                     </select>
-                </div>
-                <label for="speed">Speed</label>
+                </div> -->
+                <h5 id="speed">Speed</h5>
                 <div class="dropdown">
                     <select name="speed" id="speed_dropdown">
                         <option value="Any" selected>-Any-</option>
@@ -63,7 +63,7 @@
                         <option value="11spd">11spd</option>
                 </select>
                 </div>
-                <label for="ratio">Ratio</label>
+                <h5 id="ratio">Ratio</h5>
                 <div class="dropdown">
                     <select name="ratio" id="ratio_dropdown">
                         <option value="Any" selected>-Any-</option>
@@ -125,7 +125,7 @@
             </form>
             <button type="button" onclick="show_results()">test me</button>
         </div>
-        <output id="output"></output>
+        <output id="output">results should show here</output>
     </main>
     <footer>
     </footer>

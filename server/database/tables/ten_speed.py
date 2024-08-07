@@ -262,13 +262,13 @@ def get_ratio_10spd(ratio: str):
     connect.close()
     return rows
 
-def get_ratio_speed_10spd(ratio: str, speed: str):
+def get_speed_ratio_10spd(ratio: str):
     connect = connect_database()
     cursor = connect.cursor()
-    print(ratio, speed)
+    print(ratio)
     cursor = connect.cursor()
     result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE ratio=?", [ratio], "AND speed=?", [speed])
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE speed=10 AND ratio=?", [ratio])
 
     rows = result.fetchall()
     connect.close()

@@ -201,3 +201,15 @@ def get_ratio_8spd(ratio: str):
     rows = result.fetchall()
     connect.close()
     return rows
+
+def get_speed_ratio_8spd(ratio: str):
+    connect = connect_database()
+    cursor = connect.cursor()
+    print(ratio)
+    cursor = connect.cursor()
+    result = cursor.execute(
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE speed=8 AND ratio=?", [ratio])
+        
+    rows = result.fetchall()
+    connect.close()
+    return rows

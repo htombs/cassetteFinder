@@ -1,9 +1,9 @@
 from flask import Flask, jsonify
 from database.cassette_finder_script import get_brand_8spd, get_brand_9spd, get_brand_10spd, get_brand_11spd, get_brand_8spd_all, get_brand_9spd_all, get_brand_10spd_all, get_brand_11spd_all
 from database.cassette_finder_script import get_distributor_8spd, get_distributor_9spd, get_distributor_10spd, get_distributor_11spd, get_distributor_8spd_all, get_distributor_9spd_all, get_distributor_10spd_all, get_distributor_11spd_all
-from database.cassette_finder_script import get_speed_8spd, get_speed_9spd, get_speed_10spd, get_speed_11spd, get_speed_8spd_all, get_speed_9spd_all, get_speed_10spd_all, get_speed_11spd_all, get_ratio_speed_10spd
+from database.cassette_finder_script import get_speed_8spd, get_speed_9spd, get_speed_10spd, get_speed_11spd, get_speed_8spd_all, get_speed_9spd_all, get_speed_10spd_all, get_speed_11spd_all
 from database.cassette_finder_script import get_ratio_8spd, get_ratio_9spd, get_ratio_10spd, get_ratio_11spd, get_ratio_8spd_all, get_ratio_9spd_all, get_ratio_10spd_all, get_ratio_11spd_all
-from database.cassette_finder_script import get_ratio_speed_10spd
+from database.cassette_finder_script import get_speed_ratio_8spd, get_speed_ratio_9spd , get_speed_ratio_10spd, get_speed_ratio_11spd
 
 app = Flask(__name__)
 
@@ -74,10 +74,27 @@ def speed_list(speed):
 #     else:
 #         return jsonify({"message: no more speeds bro"})
 
-@app.route("/ratiospeed/<ratio><speed>")
-def ratio_speed_list(ratio, speed):
-    print(f"Ratio Speed Query: {ratio, speed}")
-    return jsonify(get_ratio_speed_10spd(ratio, speed))
+
+@app.route("/speedratio/8/<ratio>")
+def speed_ratio_list_8spd(ratio):
+    print(f"Ratio Speed Query: {ratio}")
+    return jsonify(get_speed_ratio_8spd(ratio))
+
+
+@app.route("/speedratio/9/<ratio>")
+def speed_ratio_list_9spd(ratio):
+    print(f"Ratio Speed Query: {ratio}")
+    return jsonify(get_speed_ratio_9spd(ratio))
+
+@app.route("/speedratio/10/<ratio>")
+def speed_ratio_list_10spd(ratio):
+    print(f"Ratio Speed Query: {ratio}")
+    return jsonify(get_speed_ratio_10spd(ratio))
+
+@app.route("/speedratio/11/<ratio>")
+def speed_ratio_list_11spd(ratio):
+    print(f"Ratio Speed Query: {ratio}")
+    return jsonify(get_speed_ratio_11spd(ratio))
 
 if __name__ == "__main__":
     app.run(debug=True)

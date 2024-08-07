@@ -268,7 +268,7 @@ def get_ratio_speed_10spd(ratio: str, speed: str):
     print(ratio, speed)
     cursor = connect.cursor()
     result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE ratio=?", [ratio], [speed])
+        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE ratio=?", [ratio], "AND speed=?", [speed])
 
     rows = result.fetchall()
     connect.close()

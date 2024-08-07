@@ -3,6 +3,7 @@ from database.cassette_finder_script import get_brand_8spd, get_brand_9spd, get_
 from database.cassette_finder_script import get_distributor_8spd, get_distributor_9spd, get_distributor_10spd, get_distributor_11spd, get_distributor_8spd_all, get_distributor_9spd_all, get_distributor_10spd_all, get_distributor_11spd_all
 from database.cassette_finder_script import get_speed_8spd, get_speed_9spd, get_speed_10spd, get_speed_11spd, get_speed_8spd_all, get_speed_9spd_all, get_speed_10spd_all, get_speed_11spd_all, get_ratio_speed_10spd
 from database.cassette_finder_script import get_ratio_8spd, get_ratio_9spd, get_ratio_10spd, get_ratio_11spd, get_ratio_8spd_all, get_ratio_9spd_all, get_ratio_10spd_all, get_ratio_11spd_all
+from database.cassette_finder_script import get_ratio_speed_10spd
 
 app = Flask(__name__)
 
@@ -72,6 +73,11 @@ def speed_list(speed):
 #         return jsonify(get_brand_11spd_all("*"))
 #     else:
 #         return jsonify({"message: no more speeds bro"})
+
+@app.route("/ratiospeed/<ratio><speed>")
+def ratio_speed_list(ratio, speed):
+    print(f"Ratio Speed Query: {ratio, speed}")
+    return jsonify(get_ratio_speed_10spd(ratio, speed))
 
 if __name__ == "__main__":
     app.run(debug=True)

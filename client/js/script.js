@@ -10,6 +10,7 @@ const requestOptions = {
 
 function show_results() {
     fetch(apiurl, requestOptions)
+    // this commented out section was throwing an error, so I've commented it out to fix other issues
             // .then(response => {
             //     if (!response.ok) {
             //         throw new Error(`HTTP error! status: ${response.status}`);
@@ -30,6 +31,8 @@ function show_results() {
                 outputElement.textContent = 'An error occurred while fetching data.';
             });
         }
+
+        // this is the old function that didn't work, so trying a new way to call show the data
         // function show_results(){
         //     fetch(apiurl, requestOptions)
         //         .then(response => {

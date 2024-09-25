@@ -1,6 +1,6 @@
 const apiurl = 'http://127.0.0.1:5000';
 
-const outputElement = document.getElementById('output');
+const outputElement = document.getElementById('option');
 const cassette_Selector = document.getElementById('cassette_Selector');
  
 const requestOptions = {
@@ -10,7 +10,7 @@ const requestOptions = {
 
 function show_results() {
     fetch(apiurl, requestOptions)
-    // this commented out section was throwing an error, so I've commented it out to fix other issues
+    // this section was throwing an error, so I've commented it out to fix other issues
             // .then(response => {
             //     if (!response.ok) {
             //         throw new Error(`HTTP error! status: ${response.status}`);
@@ -20,10 +20,10 @@ function show_results() {
             .then(data => {
                 console.log(data);
                 data.forEach(cassette => {
-                    const option = document.getElementById('option');
+                    const option = document.getElementById('ratio_dropdown');
                     option.value = cassette.id;
                     option.textContent = cassette.name;
-                    cassette_Selector.appendChild(option);
+                    cassette_Selector.appendChild('option');
                 });
             })
             .catch(error => {

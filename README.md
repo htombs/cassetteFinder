@@ -10,6 +10,7 @@ If this is successful, I'd love to expand to other parts of a bike, but for the 
 ### Pre Requisites
  - git
  - Python 3+
+ - nodejs 20+
 
 ### Running the API locally
 
@@ -21,3 +22,13 @@ pip install -r requirements.txt
 This tells python to read this file, and install any named modules in the file.
 
 Once this is done, you can run the API locally using `python3 server/api.py`
+
+### Running the client locally
+
+We can make use of a useful NPM module called `http-server` to serve the website.
+
+simply run:
+```shell
+npx http-server -c-1 ./client
+```
+> Note: the "-c-1" sets the cache to no-store to ensure files are not cached between each start

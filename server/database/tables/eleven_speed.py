@@ -1,5 +1,5 @@
 import sqlite3
-from .database import connect_database
+from .database import connect_database, response
 
 def createElevenSpeedTable():
     connect = connect_database()
@@ -238,7 +238,7 @@ def get_distributor_11spd_all(distributor: str):
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)
 
 def get_distributor_11spd(distributor: str):
     connect = connect_database()
@@ -250,7 +250,7 @@ def get_distributor_11spd(distributor: str):
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)
 
 def get_brand_11spd_all(brand: str):
     connect = connect_database()
@@ -262,7 +262,7 @@ def get_brand_11spd_all(brand: str):
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)
 
 def get_brand_11spd(brand: str):
     connect = connect_database()
@@ -274,19 +274,17 @@ def get_brand_11spd(brand: str):
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)
 
-def get_speed_11spd_all(speed: int):
+def get_speed_11spd_all():
     connect = connect_database()
-    cursor = connect.cursor()
-    print(speed)
     cursor = connect.cursor()
     result = cursor.execute(
         "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd")
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)
 
 def get_speed_11spd(speed: int):
     connect = connect_database()
@@ -298,7 +296,7 @@ def get_speed_11spd(speed: int):
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)
     
 def get_ratio_11spd_all(ratio: str):
     connect = connect_database()
@@ -310,7 +308,7 @@ def get_ratio_11spd_all(ratio: str):
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)
 
 def get_ratio_11spd(ratio: str):
     connect = connect_database()
@@ -322,7 +320,7 @@ def get_ratio_11spd(ratio: str):
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)
 
 def get_speed_ratio_11spd(ratio: str):
     connect = connect_database()
@@ -334,4 +332,4 @@ def get_speed_ratio_11spd(ratio: str):
 
     rows = result.fetchall()
     connect.close()
-    return rows
+    return response(rows)

@@ -4,5 +4,7 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs.buildPackages; [
     python3
     python3Packages.flask
+    python3Packages.flask-cors
+    nodejs
   ];
 }

@@ -1,48 +1,96 @@
-const apiurl = 'http://127.0.0.1:5000';
+// setup the base API URL to call.
+// We'll add to this to make the various different API calls
+const apiurl = 'http://localhost:5000';
 
-const outputElement = document.getElementById('option');
-const cassette_Selector = document.getElementById('cassette_Selector');
- 
-const requestOptions = {
-    method: 'GET',
-    mode: "no-cors"
-};
+// Grab the output HTML element
+const output = document.getElementById('output');
 
-function show_results() {
-    fetch(apiurl, requestOptions)
-    // this section was throwing an error, so I've commented it out to fix other issues
-            // .then(response => {
-            //     if (!response.ok) {
-            //         throw new Error(`HTTP error! status: ${response.status}`);
-            //     }
-            //     return response.json();
-            // })
-            .then(data => {
-                console.log(data);
-                data.forEach(cassette => {
-                    const option = document.getElementById('ratio_dropdown');
-                    option.value = cassette.id;
-                    option.textContent = cassette.name;
-                    cassette_Selector.appendChild('option');
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                outputElement.textContent = 'An error occurred while fetching data.';
-            });
+// addResult simply takes an "item" JSON object
+// creates a list item element for it
+// and adds it to the output element
+function addResult(item) {
+    // if it's an object, just add the items to the output html.
+    const result = document.createElement('li');
+    // NOTE: id's are prefixed with "pn_" just so it has a buit more context when reading them.
+    result.id = `pn_${item.part_number}`;
+    result.textContent = `${item.distributor} sells a ${item.brand} ${item.speed} speed ${item.ratio} for £${item.rrp}`;
+    output.appendChild(result);
+}
+
+// This event listener captures the "submit" event that happens when you submit a form
+// You'll notice, we just grab the form by the tag selector, instead of by ID. 
+// This is because there's only one form on the page.
+// WARNING: This event will _also_ fire if another form on this page is submitted as well.
+const form = document.querySelector('form').addEventListener('submit', (evt) => {
+    // prevent the default form action taking place
+    // This stops the page re-loading
+    evt.preventDefault();
+
+    // fetch the selections fromt he Form data we submitted
+    const data = Object.fromEntries(new FormData(evt.target).entries());
+
+    // clear the results on each submit
+    output.innerHTML = '';
+
+    // build the url we're going to call depending on selections
+    let url = apiurl;
+
+    // make sure the fields we're checking for do actually exist
+    if (data.speed !== undefined) {
+        if (data.speed != "Any") { 
+            // add the speed path to the base api url if it's not "Any"
+            // NOTE: the '+=' means "add this on to the end of the string"
+            //
+            // This will make the value of "url" "http://localhost:5000/speed/<speed>"
+            url += `/speed/${data.speed}`;
+        } else { 
+            // if speed _is_ Any, change it to all for the api
+            // This will make the value of "url" "http://localhost:5000/speed/all"
+            url += "/speed/all"; 
+
         }
+    }
 
-        // this is the old function that didn't work, so trying a new way to call show the data
-        // function show_results(){
-        //     fetch(apiurl, requestOptions)
-        //         .then(response => {
-        //             console.log(response);
-        //             return response.json();
-        //         })
-        //         .then(data => {
-        //             console.log(data);
-        //         })
-        //         // .catch(error => {
-        //         //     console.error('Error:', error);
-        //         // });
-        //     }
+    if (data.ratio !== undefined) {
+        if (data.ratio != "Any") { 
+            // add the ratio path to the url after speed if it's not "Any"
+            // This will make the value of "url" "http://localhost:5000/speed/<speed>/ratio/<ratio>"
+            url += `/ratio/${data.ratio}`; 
+        } else {
+            // if ratio _is_ Any, change it to all for the api
+            // This will make the value of "url" "http://localhost:5000/speed/<speed>/ratio/all"
+            url += "/ratio/all";
+        }
+    }
+
+    // Make the call to the API using the URL we've constructed above.
+    fetch(url).then(response => {
+            // Return early if we don't make a successful call to the API
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            // is all went well, translate the response into JSON
+            return response.json();
+        }).then(data => {
+            // first, check if "data" actualy has anything in it
+            if (data.length <= 0) {
+                // If it doesn't, just say we didn't get any results and skip everything else.
+                output.innerHTML = '<li>No results found</li>';
+                return
+            }
+            // Because of how we build the API responses, the data will always be in an array.
+            // So we can reliably call forEach.
+            data.forEach(item => {
+                // Next we need to check if each item in the data object is an array [] or an object {}.
+                if (item.constructor == Array) {
+                    item.forEach(itm => addResult(itm));
+                }
+
+                if (item.constructor == Object) { addResult(item); }
+            });
+
+        }).catch(error => {
+            console.error('Error:', error);
+            output.textContent = 'An error occurred while fetching data.';
+        });
+});

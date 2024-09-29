@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cassette Finder: Home Page</title>
-    <link rel="stylesheet" href="../css/styles.css" media="screen" type="text/css"/>
+    <link rel="stylesheet" href="css/styles.css" media="screen" type="text/css"/>
     <script src="https://kit.fontawesome.com/01f26ab4ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -58,10 +58,10 @@
                 <div class="dropdown">
                     <select name="speed" id="speed_dropdown">
                         <option value="Any" selected>-Any-</option>
-                        <option value="8spd">8spd</option>
-                        <option value="9spd">9spd</option>
-                        <option value="10spd">10spd</option>
-                        <option value="11spd">11spd</option>
+                        <option value="8">8spd</option>
+                        <option value="9">9spd</option>
+                        <option value="10">10spd</option>
+                        <option value="11">11spd</option>
                 </select>
                 </div>
                 <h5 id="ratio">Ratio</h5>
@@ -121,15 +121,14 @@
                 </div>
                 <br>
                 <div class="submit_button">
-                    <input type="submit" onclick="show_results()"></input>
+                    <input type="submit" ></input>
                 </div>
             </form>
-            <button type="button" onclick="show_results()">test me</button>
         </div>
-        <output id="output">results should show here</output>
+        <ul id="output"></ul>
     </main>
     <footer>
     </footer>
-    <script src="../js/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

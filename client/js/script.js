@@ -51,7 +51,7 @@ function addResult(item) {
     const link = document.createElement('a')
     link.href = item.link 
     link.textContent = item.distributor;
-    link.target = "_blank";
+    link.target = "_blank"; // this line opens the link in a new window
     resultLink.appendChild(link);
     result.appendChild(resultLink);
 
@@ -142,3 +142,7 @@ let scrollToTop = document.getElementById("scrollToTopBtn");
 function scrollToTopBtn() {
     document.documentElement.scrollTop = 0;
 }
+
+// add to the code below to make the table header apear on command rather than 
+// const theader = document.getElementById("theader");
+// theader.classList.add('hidden');

@@ -168,57 +168,14 @@ def insertTenSpeedData():
     connect.commit()
     connect.close()
 
-def get_distributor_10spd_all(distributor: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(distributor)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd")
+tenspdSQL = '''SELECT cassettes_10spd.brand, cassettes_10spd.model, cassettes_10spd.partNumber, cassettes_10spd.speed, cassettes_10spd.ratio, distributor_table.distributor_name, cassettes_10spd.rrp, distributor_table.distributor_link_url 
+        FROM cassettes_10spd, distributor_table WHERE cassettes_10spd.distributor_id = distributor_table.distributor_id '''
 
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_distributor_10spd(distributor: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(distributor)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE distributor=?", [distributor])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_brand_10spd_all(brand: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(brand)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd")
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_brand_10spd(brand: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(brand)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE brand=?", [brand])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
 
 def get_speed_10spd_all():
     connect = connect_database()
     cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd")
+    result = cursor.execute(tenspdSQL)
 
     rows = result.fetchall()
     connect.close()
@@ -229,26 +186,12 @@ def get_speed_10spd(speed: int):
     cursor = connect.cursor()
     print(speed)
     cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE speed=?", [speed])
+    result = cursor.execute(tenspdSQL + "AND speed=?", [speed])
 
     rows = result.fetchall()
     connect.close()
     return response(rows)
 
-def get_ratio_10spd_all(ratio: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd")
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_ratio_10spd(ratio: str):
     connect = connect_database()
     cursor = connect.cursor()
     print(ratio)
@@ -265,8 +208,7 @@ def get_speed_ratio_10spd(ratio: str):
     cursor = connect.cursor()
     print(ratio)
     cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE speed=10 AND ratio=?", [ratio])
+    result = cursor.execute(tenspdSQL + "AND speed=10 AND ratio=?", [ratio])
 
     rows = result.fetchall()
     connect.close()

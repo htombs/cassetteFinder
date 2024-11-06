@@ -110,59 +110,13 @@ def insertEightSpeedData():
     connect.commit()
     connect.close()
 
-def get_distributor_8spd_all(distributor: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(distributor)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd")
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-# The _all functions are what will be called when the dropdown box is unselected by the user and left on "Any"
-
-def get_distributor_8spd(distributor: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(distributor)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE distributor=?", [distributor])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-# These specific functions will be what is called when the user selects a specific selection on the drop down box
-
-def get_brand_8spd_all(brand: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(brand)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd")
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_brand_8spd(brand: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(brand)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE brand=?", [brand])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
+eightspdSQL = '''SELECT cassettes_8spd.brand, cassettes_8spd.model, cassettes_8spd.partNumber, cassettes_8spd.speed, cassettes_8spd.ratio, distributor_table.distributor_name, cassettes_8spd.rrp, distributor_table.distributor_link_url 
+        FROM cassettes_8spd, distributor_table WHERE cassettes_8spd.distributor_id = distributor_table.distributor_id '''
 
 def get_speed_8spd_all():
     connect = connect_database()
     cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd")
+    result = cursor.execute(eightspdSQL)
     
     rows = result.fetchall()
     connect.close()
@@ -173,31 +127,7 @@ def get_speed_8spd(speed: int):
     connect = connect_database()
     cursor = connect.cursor()
     print(speed)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE speed=?", [speed])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_ratio_8spd_all(ratio: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(ratio)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd")
-
-    rows = result.fetchall()
-    connect.close()
-
-    return response(rows)
-
-def get_ratio_8spd(ratio: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(ratio)
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE ratio=?", [ratio])
+    result = cursor.execute(eightspdSQL + "AND speed=?", [speed])
 
     rows = result.fetchall()
     connect.close()
@@ -208,8 +138,7 @@ def get_speed_ratio_8spd(ratio: str):
     cursor = connect.cursor()
     print(ratio)
     cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE speed=8 AND ratio=?", [ratio])
+    result = cursor.execute(eightspdSQL + "AND speed=8 AND ratio=?", [ratio])
         
     rows = result.fetchall()
     connect.close()

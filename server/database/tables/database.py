@@ -10,7 +10,7 @@ def connect_database():
 # NOTE: Notice that the row indexes correlate to the SELECT names from the SQL Query
 # except the part number, because we use this as an "index"
 def row_to_dict(row: list):
-    return {"brand": row[0], "model": row[1], "part_number": row[2],"speed": row[3],"ratio": row[4],"distributor": row[5],"rrp": row[6]}
+    return {"brand": row[0], "model": row[1], "part_number": row[2],"speed": row[3],"ratio": row[4],"distributor": row[5],"rrp": row[6], "link": row[7]}
 
 # This is a wrapper function that takes the default rows list and turns it into 
 # a list of dictionaries for easier readability.

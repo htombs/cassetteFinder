@@ -228,59 +228,12 @@ def insertElevenSpeedData():
     connect.commit()
     connect.close()
 
-def get_distributor_11spd_all(distributor: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(distributor)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd")
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_distributor_11spd(distributor: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(distributor)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE distributor=?", [distributor])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_brand_11spd_all(brand: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(brand)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd ")
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_brand_11spd(brand: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(brand)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE brand=?", [brand])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
+elevenspdSQL = '''SELECT cassettes_11spd.brand, cassettes_11spd.model, cassettes_11spd.partNumber, cassettes_11spd.speed, cassettes_11spd.ratio, distributor_table.distributor_name, cassettes_11spd.rrp, distributor_table.distributor_link_url 
+        FROM cassettes_11spd, distributor_table WHERE cassettes_11spd.distributor_id = distributor_table.distributor_id '''
 def get_speed_11spd_all():
     connect = connect_database()
     cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd")
+    result = cursor.execute(elevenspdSQL)
 
     rows = result.fetchall()
     connect.close()
@@ -291,32 +244,7 @@ def get_speed_11spd(speed: int):
     cursor = connect.cursor()
     print(speed)
     cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE speed=?", [speed])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-    
-def get_ratio_11spd_all(ratio: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd")
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_ratio_11spd(ratio: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE ratio=?", [ratio])
+    result = cursor.execute(elevenspdSQL + "AND speed=?", [speed])
 
     rows = result.fetchall()
     connect.close()
@@ -327,8 +255,7 @@ def get_speed_ratio_11spd(ratio: str):
     cursor = connect.cursor()
     print(ratio)
     cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE speed=11 AND ratio=?", [ratio])
+    result = cursor.execute(elevenspdSQL + "AND speed=11 AND ratio=?", [ratio])
 
     rows = result.fetchall()
     connect.close()

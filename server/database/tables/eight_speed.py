@@ -133,14 +133,25 @@ def get_speed_8spd(speed: int):
     connect.close()
     return response(rows)
 
-def get_speed_ratio_8spd(ratio: str):
+# def get_speed_ratio_8spd(ratio: str):
+#     connect = connect_database()
+#     cursor = connect.cursor()
+#     print(ratio)
+#     cursor = connect.cursor()
+#     result = cursor.execute(eightspdSQL + "AND speed=8 AND ratio=?", [ratio])
+        
+#     rows = result.fetchall()
+#     connect.close()
+#     return response(rows)
+
+# I've commented this function out as it's been made redundant with the below fundtion
+
+def get_speed_ratio_brand_8spd(ratio: str, brand: str):
     connect = connect_database()
     cursor = connect.cursor()
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute(eightspdSQL + "AND speed=8 AND ratio=?", [ratio])
-        
+    print(brand)
+    result = cursor.execute(eightspdSQL + "AND speed=8 AND ratio=? AND brand=?", [ratio], [brand])
+
     rows = result.fetchall()
     connect.close()
     return response(rows)
-

@@ -17,48 +17,11 @@
         <h3>Use the dropdown boxes below to find the cassette you're looking for</h3>
         <div class="select_options">
             <form id="cassette_Selector">
-                <!-- these dropdown options are not relevent right now, may bring them back later if needed -->
-                <!-- <label for="distributor">Distributor</label>
-                <div class="dropdown">
-                    <select name="distributor" id="distributor_dropdown">
-                        <option value="Any" selected>-Any-</option> <!--The "selected" sets the default option when the page is loaded-->
-                        <!-- <option value="Bob-Elliot">Bob-Elliot</option>
-                        <option value="Chicken Cyclekit">Chicken Cyclekit</option>
-                        <option value="Greyville">Greyville</option>
-                        <option value="Ison Distribution">Ison Distribution</option>
-                        <option value="Mackadams">Mackadams</option>
-                        <option value="Madison">Madison</option>
-                        <option value="Upgrade">Upgrade</option>
-                        <option value="ZyroFisher">ZyroFisher</option> -->
-                    <!-- </select>
-                </div>
-                <label for="brand">Brand</label>
-                <div class="dropdown">
-                    <select name="brand" id="brand_dropdown">
-                        <option value="Any" selected>-Any-</option>
-                        <option value="Box">Box</option>
-                        <option value="Campagnolo">Campagnolo</option>
-                        <option value="Clarks">Clarks</option>
-                        <option value="Geardrive">Geardrive</option>
-                        <option value="GTB">GTB</option>
-                        <option value="KMC">KMC</option>
-                        <option value="Miche">Miche</option>
-                        <option value="Microshift">Microshift</option>
-                        <option value="S-Ride">S-Ride</option>
-                        <option value="Shimano">Shimano</option>
-                        <option value="SRAM">SRAM</option>
-                        <option value="Sunrace">Sunrace</option>
-                        <option value="Tektro">Tektro</option>
-                        <option value="Tifosi">Tifosi</option>
-                        <option value="TRP">TRP</option>
-                        <option value="UNBRANDED">UNBRANDED</option>
-                    </select>
-                </div> -->
                 <div class="spd_container">
-                <h5 id="speed">Speed</h5>
-                <div class="dropdown">
-                    <select name="speed" id="speed_dropdown">
-                        <option value="Any" selected>- Any -</option>
+                    <h5 id="speed">Speed</h5>
+                    <div class="dropdown">
+                        <select name="speed" id="speed_dropdown">
+                            <option value="Any" selected>- Any -</option>
                         <option value="8">8spd</option>
                         <option value="9">9spd</option>
                         <option value="10">10spd</option>
@@ -122,16 +85,40 @@
                         <option value="16-30">16-30</option>
                     </select>
                 </div>
+            </div>
+            <div class="spd_container">
+                <h5 id="brand">Brand</h5>
+                <div class="dropdown">
+                    <select name="brand" id="brand_dropdown">
+                        <option value="Any" selected>-Any-</option>
+                        <option value="Box">Box</option>
+                        <option value="Campagnolo">Campagnolo</option>
+                        <option value="Clarks">Clarks</option>
+                        <option value="Geardrive">Geardrive</option>
+                        <option value="GTB">GTB</option>
+                        <option value="KMC">KMC</option>
+                        <option value="Miche">Miche</option>
+                        <option value="Microshift">Microshift</option>
+                        <option value="S-Ride">S-Ride</option>
+                        <option value="Shimano">Shimano</option>
+                        <option value="SRAM">SRAM</option>
+                        <option value="Sunrace">Sunrace</option>
+                        <option value="Tektro">Tektro</option>
+                        <option value="Tifosi">Tifosi</option>
+                        <option value="TRP">TRP</option>
+                        <option value="UNBRANDED">UNBRANDED</option>
+                    </select>
                 </div>
-                <br>
-                <div class="submit_button">
-                    <input type="submit" ></input>
-                </div>
-            </form>
-        </div>
-        <table>
-            <thead id="thead">
-                <tr>
+            </div>
+            <br>
+            <div class="submit_button">
+                <input type="submit" ></input>
+            </div>
+        </form>
+    </div>
+    <table>
+        <thead id="thead">
+            <tr>
                     <th>Brand</th>
                     <th>Series</th>
                     <th>Speed</th>

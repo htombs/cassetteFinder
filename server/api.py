@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from database.cassette_finder_script import get_speed_8spd_all, get_speed_9spd_all, get_speed_10spd_all, get_speed_11spd_all
-from database.cassette_finder_script import get_speed_ratio_8spd, get_speed_ratio_9spd , get_speed_ratio_10spd, get_speed_ratio_11spd
+from database.cassette_finder_script import get_speed_ratio_9spd , get_speed_ratio_10spd, get_speed_ratio_11spd, get_speed_ratio_brand_8spd
 
 app = Flask(__name__)
 # NOTE: This allows any web address to call the API - so we no longer need the 'no-cors' call in the frontend
@@ -14,10 +14,11 @@ CORS(app, origins=['http://localhost:5000', 'http://localhost:8080', 'http://127
 def home():
     return jsonify({"message": "Welcome to the Cassette Finder API"})
 
-@app.route("/speed/<speed>/ratio/<ratio>")
-def ratio(speed, ratio):
+@app.route("/speed/<speed>/ratio/<ratio>/brand/<brand>")
+def ratio(speed, ratio, brand):
     print(f"Speed: {speed}")
     print(f"Ratio: {ratio}")
+    print(f"Brand: {brand}")
 
     # NOTE: There's some special bits of logic we need to do to handle 
     # the "all" queries. 
@@ -49,6 +50,14 @@ def ratio(speed, ratio):
         else:
             for item in speeds:
                 response.append(item)
+    
+        if brand != "all":
+            for item in speeds:
+                if item[brand] == brand:
+                    response.append(item)
+        else:
+            for item in speeds:
+                response.append(item)
 
         # and finally, return the jsonify-ied response
         return jsonify(response)
@@ -56,7 +65,7 @@ def ratio(speed, ratio):
     # Handle 8 speed queries
     if speed == '8':
         if ratio != "all":
-            return jsonify(get_speed_ratio_8spd(ratio))
+            return jsonify(get_speed_ratio_brand_8spd(ratio, brand))
         else:
             return jsonify(get_speed_8spd_all())
 

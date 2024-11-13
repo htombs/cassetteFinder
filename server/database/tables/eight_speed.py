@@ -143,4 +143,3 @@ def get_speed_ratio_8spd(ratio: str):
     rows = result.fetchall()
     connect.close()
     return response(rows)
-

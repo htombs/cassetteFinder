@@ -120,7 +120,6 @@ def get_speed_8spd_all():
     
     rows = result.fetchall()
     connect.close()
- 
     return response(rows)
 
 def get_speed_8spd(speed: int):

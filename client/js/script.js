@@ -105,6 +105,15 @@ const form = document.querySelector('form').addEventListener('submit', (evt) => 
         }
     }
 
+    if (data.brand !== undefined) {
+        if (data.brand != "Any") {
+            url += `/brand/${data.brand}`;
+        } else {
+            url += "/brand/all";
+        }
+    } 
+        // same rules apply for this if statement as previous ratio and speed
+
     // Make the call to the API using the URL we've constructed above.
     fetch(url).then(response => {
             // Return early if we don't make a successful call to the API
@@ -138,7 +147,7 @@ const form = document.querySelector('form').addEventListener('submit', (evt) => 
 });
 
 let scrollToTop = document.getElementById("scrollToTopBtn");
-
+//  when button on html is clicked, the page jumps to the top
 function scrollToTopBtn() {
     document.documentElement.scrollTop = 0;
 }

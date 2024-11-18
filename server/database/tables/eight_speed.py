@@ -149,8 +149,9 @@ def get_speed_ratio_brand_8spd(ratio: str, brand: str):
     connect = connect_database()
     cursor = connect.cursor()
     print(brand)
-    result = cursor.execute(eightspdSQL + "AND speed=8 AND ratio=? AND brand=?", [ratio], [brand])
-
+    # result = cursor.execute(eightspdSQL + "AND speed=8 AND ratio=? AND brand=?", [ratio, brand])
+    result = cursor.execute(eightspdSQL + "AND speed=8 AND ratio=:ratio AND brand=:brand”, {“ratio”:ratio, “brand”:brand}")
+        # the above result code is a slight variation to try and get the api call to work
     rows = result.fetchall()
     connect.close()
     return response(rows)

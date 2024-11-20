@@ -1,13 +1,9 @@
 import sqlite3
-from .database import connect_database
-
-connect = connect_database()
-
-connect.execute("PRAGMA foreign_keys = 1")
-
-cursor = connect.cursor()
+from .database import connect_database, response
 
 def createElevenSpeedTable():
+    connect = connect_database()
+    cursor = connect.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes_11spd 
                (id INT PRIMARY KEY, 
                brand VARCHAR(255), 
@@ -20,8 +16,11 @@ def createElevenSpeedTable():
                distributor_id INT,
                FOREIGN KEY (distributor_id) REFERENCES distributor_table (distributor_id))''')
     connect.commit()
+    connect.close()
 
 def insertElevenSpeedData():
+    connect = connect_database()
+    cursor = connect.cursor()
     data = [
         (1, "Shimano", "R7000", "25200", 11, "11-28", "Bob-Elliot", 54.99, 1),
         (2, "Shimano", "R7000", "25201", 11, "11-30", "Bob-Elliot", 54.99, 1),
@@ -227,59 +226,30 @@ def insertElevenSpeedData():
     cursor.executemany("REPLACE INTO cassettes_11spd VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
 
     connect.commit()
+    connect.close()
 
-def get_distributor_11spd(distributor: str):
-    print(distributor)
-    cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE distributor=?", [distributor])
+elevenspdSQL = '''SELECT cassettes_11spd.brand, cassettes_11spd.model, cassettes_11spd.partNumber, cassettes_11spd.speed, cassettes_11spd.ratio, distributor_table.distributor_name, cassettes_11spd.rrp, distributor_table.distributor_link_url 
+        FROM cassettes_11spd, distributor_table WHERE cassettes_11spd.distributor_id = distributor_table.distributor_id '''
+
+def get_11spd(speed:str, ratio:str, brand:str):
+    query = elevenspdSQL
+    parameter = []
+    if speed != "all":
+        query += "AND speed=?"
+        parameter.append(speed)
+
+    if ratio != "all":
+        query += "AND ratio=?"
+        parameter.append(ratio)
+    
+    if brand != "all":
+        query += "AND brand=?"
+        parameter.append(brand)
+
+    connect = connect_database()
+    cursur = connect.cursor()
+    result = cursur.execute(query, parameter)
 
     rows = result.fetchall()
     connect.close()
-    # print(rows)
-
-    for row in rows:
-        print(row)
-
-connect.commit()
-
-def get_brand_11spd(brand: str):
-    print(brand)
-    cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE brand=?", [brand])
-
-    rows = result.fetchall()
-    connect.close()
-    #print(rows)
-
-    for row in rows:
-        print(row)
-
-connect.commit()
-
-def get_speed_11spd(speed: int):
-    print(speed)
-    cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE speed=?", [speed])
-
-    rows = result.fetchall()
-    connect.close()
-    # print(rows)
-
-    for row in rows:
-        print(row)
-
-connect.commit()
-
-def get_ratio_11spd(ratio: str):
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_11spd WHERE ratio=?", [ratio])
-
-    rows = result.fetchall()
-    connect.close()
-    # print(rows)
-
-    for row in rows:
-        print(row)
-
-connect.commit()
+    return response(rows)

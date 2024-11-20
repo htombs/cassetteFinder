@@ -1,27 +1,35 @@
 import sqlite3
-from .database import connect_database
-
-connect = connect_database()
-
-connect.execute("PRAGMA foreign_keys = 1")
-
-cursor = connect.cursor()
+from .database import connect_database, response
 
 def createEightSpeedTable():
-    cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes_8spd 
-               (id INT PRIMARY KEY, 
-               brand VARCHAR(255), 
-               model VARCHAR(255), 
-               partNumber VARCHAR(255), 
-               speed INT, 
-               ratio VARCHAR(10), 
-               distributor VARCHAR(255), 
+    connect = connect_database()
+    # opens a connection to the database as opened in database.py
+    cursor = connect.cursor()
+    # creates a cursor so we can interact with the database and write SELECT statements and other SQL statement 
+    cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes_8spd
+               (id INT PRIMARY KEY,
+               brand VARCHAR(255),
+               model VARCHAR(255),
+               partNumber VARCHAR(255),
+               speed INT,
+               ratio VARCHAR(10),
+               distributor VARCHAR(255),
                rrp DECIMAL(10,2),
                distributor_id INT,
                FOREIGN KEY (distributor_id) REFERENCES distributor_table (distributor_id))''')
+    # cursor.excecute tells the database to perform the task in brackets, in this case the SQL statement where we create a table
+    # CREATE TABLE IF NOT EXISTS is used to avoid multiple variation of cassettes_8spd being created, that's quite annoying later on if you have multiples of the same table
+    # SQL is also case sensitive and when naming tables, needs to begin with a letter, not and number. The table used to be called 8_speed_cassettes, but had to be changed
+    # ''' are used in python when performing complex lined SQL statements. "" can also be used but I've found them not as reliable for the big stuff
     connect.commit()
+    # .commit() saves all progress. Always save within the funciton, not overall
+    connect.close()
+    # .close() closeds the connection to the database as we no longer need it open for this function
+
 
 def insertEightSpeedData():
+    connect = connect_database()
+    cursor = connect.cursor()
     data = [
         (1, "Shimano", "HG400", "CSHG4008145", 8, "11-45", "Madison", 36.99, 6),
         (2, "Shimano", "HG400", "CSHG4008140", 8, "11-40", "Madison", 34.99, 6),
@@ -104,63 +112,46 @@ def insertEightSpeedData():
         (79, "Microshift", "Acolyte", "CSMSH8138", 8, "11-38", "Ison Distribution", 29.99, 4),
         (80, "Microshift", "Acolyte", "CSMSH8242", 8, "12-42", "Ison Distribution", 34.99, 4),
         (81, "Microshift", "Acolyte", "CSMSH8246", 8, "12-46", "Ison Distribution", 39.99, 4)]
+    # Here we are creating all the data that will be inserted into the cassettes_8spd table in the form of a list [] named: data be sure to use the correct number of columns as stated in the CREATE TABLE statement
 
     cursor.executemany("REPLACE INTO cassettes_8spd VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", data)
+    # Now we use .excecutemany to insert multiple parameters, we use ? as placeholders for those parameters, and "data" to tell the statement what inforamtion to put instead of the placeholders. The ? are the same number as coloumns created and data listed above
 
     connect.commit()
+    connect.close()
 
-def get_distributor_8spd(distributor: str):
-    print(distributor)
+eightspdSQL = '''SELECT cassettes_8spd.brand, cassettes_8spd.model, cassettes_8spd.partNumber, cassettes_8spd.speed, cassettes_8spd.ratio, distributor_table.distributor_name, cassettes_8spd.rrp, distributor_table.distributor_link_url 
+        FROM cassettes_8spd, distributor_table WHERE cassettes_8spd.distributor_id = distributor_table.distributor_id '''
+    # Here we create a simple SELECT statment to pull all the relevent information taht we want to show the client
+
+def get_8spd(speed: str, ratio: str, brand: str):
+    # this funciton is listing all possible parameters (dropdown options) needed to run: speed, ratio, brand. The purpose is to add the data when it is selected from the dropdown option on the website
+    query = eightspdSQL
+    # to use the eightspdSQL statement created earlier, we need to assign it a new name, in this case: query
+    parameter = []
+    # an empty list is created called parameter that we can add to later
+    if speed != "all":
+    # if statement to decide what happens if "all" option is not selected (referencing script.js "const form" for "Submit" button line 82)
+        query += "AND speed=?"
+    # the += combines the eightspdSQL SELECT statement with "AND speed=?" at the end. A ? mark is again used as a placeholder in SQLite3
+        parameter.append(speed)
+    # the .append(speed) takes the selected "speed" from the dropdown option and adds it to the "parameter" list
+    
+    if ratio != "all":
+        query += "AND ratio=?"
+        parameter.append(ratio)
+
+    if brand != "all":
+        query += "AND brand=?"
+        parameter.append(brand)
+
+
+    # as with all other SQLite3 functions we've used, we need to close the connection to the database
+    connect = connect_database()
+    # opens a connection to the database
     cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE distributor=?", [distributor])
+    result = cursor.execute(query, parameter)
 
     rows = result.fetchall()
     connect.close()
-    #print(rows)
-
-    for row in rows:
-        print(row)
-
-connect.commit()
-
-def get_brand_8spd(brand: str):
-    print(brand)
-    cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE brand=?", [brand])
-
-    rows = result.fetchall()
-    connect.close()
-    #print(rows)
-
-    for row in rows:
-        print(row)
-
-connect.commit()
-
-def get_speed_8spd(speed: int):
-    print(speed)
-    cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE speed=?", [speed])
-
-    rows = result.fetchall()
-    connect.close()
-    # print(rows)
-
-    for row in rows:
-        print(row)
-
-connect.commit()
-
-def get_ratio_8spd(ratio: str):
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute("SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_8spd WHERE ratio=?", [ratio])
-
-    rows = result.fetchall()
-    connect.close()
-    # print(rows)
-
-    for row in rows:
-        print(row)
-
-connect.commit()
+    return response(rows)

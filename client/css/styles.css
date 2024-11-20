@@ -115,11 +115,11 @@ th, td {
 }
 
 th, tr:nth-child(even) {
-    background-color: #0a310d;
+    background-color: #15501a;
 }
 
 tr:hover {
-    background: rgba(99, 146, 107, 0.541);
+    background: rgba(146, 146, 146, 0.541);
 }
 
 a {

@@ -113,24 +113,24 @@ def insertEightSpeedData():
 eightspdSQL = '''SELECT cassettes_8spd.brand, cassettes_8spd.model, cassettes_8spd.partNumber, cassettes_8spd.speed, cassettes_8spd.ratio, distributor_table.distributor_name, cassettes_8spd.rrp, distributor_table.distributor_link_url 
         FROM cassettes_8spd, distributor_table WHERE cassettes_8spd.distributor_id = distributor_table.distributor_id '''
 
-def get_speed_8spd_all():
-    connect = connect_database()
-    cursor = connect.cursor()
-    result = cursor.execute(eightspdSQL)
+# def get_speed_8spd_all():
+#     connect = connect_database()
+#     cursor = connect.cursor()
+#     result = cursor.execute(eightspdSQL)
     
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
+#     rows = result.fetchall()
+#     connect.close()
+#     return response(rows)
 
-def get_speed_8spd(speed: int):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(speed)
-    result = cursor.execute(eightspdSQL + "AND speed=?", [speed])
+# def get_speed_8spd(speed: int):
+#     connect = connect_database()
+#     cursor = connect.cursor()
+#     print(speed)
+#     result = cursor.execute(eightspdSQL + "AND speed=?", [speed])
 
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
+#     rows = result.fetchall()
+#     connect.close()
+#     return response(rows)
 
 # def get_speed_ratio_8spd(ratio: str):
 #     connect = connect_database()
@@ -145,12 +145,26 @@ def get_speed_8spd(speed: int):
 
 # I've commented this function out as it's been made redundant with the below fundtion
 
-def get_speed_ratio_brand_8spd(ratio: str, brand: str):
+def get_speed_ratio_brand_8spd(speed: str, ratio: str, brand: str):
+    query = eightspdSQL
+    parameter = []
+    if speed != "all":
+        query += "AND speed=?"
+        parameter.append(speed)
+    
+    if ratio != "all":
+        query += "AND ratio=?"
+        parameter.append(ratio)
+
+    if brand != "all":
+        query += "AND brand=?"
+        parameter.append(brand)
+
     connect = connect_database()
     cursor = connect.cursor()
     print(brand)
-    # result = cursor.executemany(eightspdSQL + "AND speed=8 AND ratio=? AND brand=?", [ratio, brand])
-    result = cursor.executemany(eightspdSQL + "AND speed=8 AND ratio=:ratio AND brand=:brand”, {“ratio”:ratio, “brand”:brand}")
+    result = cursor.execute(query, parameter)
+    # result = cursor.executemany(eightspdSQL + "AND speed=8 AND ratio=:ratio AND brand=:brand”, {“ratio”:ratio, “brand”:brand}")
         # the above result code is a slight variation to try and get the api call to work
     rows = result.fetchall()
     connect.close()

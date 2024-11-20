@@ -248,9 +248,6 @@ def get_11spd(speed:str, ratio:str, brand:str):
 
     connect = connect_database()
     cursur = connect.cursor()
-    # print(speed)
-    # print(ratio)
-    # print(brand)
     result = cursur.execute(query, parameter)
 
     rows = result.fetchall()

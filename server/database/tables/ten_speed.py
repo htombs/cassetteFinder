@@ -171,46 +171,28 @@ def insertTenSpeedData():
 tenspdSQL = '''SELECT cassettes_10spd.brand, cassettes_10spd.model, cassettes_10spd.partNumber, cassettes_10spd.speed, cassettes_10spd.ratio, distributor_table.distributor_name, cassettes_10spd.rrp, distributor_table.distributor_link_url 
         FROM cassettes_10spd, distributor_table WHERE cassettes_10spd.distributor_id = distributor_table.distributor_id '''
 
+def get_10spd(speed: str, ratio: str, brand: str):
+    query = tenspdSQL
+    parameter = []
+    if speed != "all":
+        query += "AND speed=?"
+        parameter.append(speed)
+    
+    if ratio != "all":
+        query += "AND ratio=?"
+        parameter.append(ratio)
 
-def get_speed_10spd_all():
+    if brand != "all":
+        query += "AND brand=?"
+        parameter.append(brand)
+
     connect = connect_database()
     cursor = connect.cursor()
-    result = cursor.execute(tenspdSQL)
+    # print(speed)
+    # print(ratio)
+    # print(brand)
+    result = cursor.execute(query, parameter)
 
     rows = result.fetchall()
     connect.close()
     return response(rows)
-
-def get_speed_10spd(speed: int):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(speed)
-    cursor = connect.cursor()
-    result = cursor.execute(tenspdSQL + "AND speed=?", [speed])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute(
-        "SELECT brand, model, partNumber, speed, ratio, distributor, rrp FROM cassettes_10spd WHERE ratio=?", [ratio])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_speed_ratio_10spd(ratio: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute(tenspdSQL + "AND speed=10 AND ratio=?", [ratio])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-

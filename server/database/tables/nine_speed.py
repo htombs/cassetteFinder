@@ -159,11 +159,11 @@ def get_9spd(speed: str, ratio: str, brand: str):
 
     connect = connect_database()
     cursor = connect.cursor()
-    print(speed)
-    print(ratio)
-    print(brand)
+    # print(speed)
+    # print(ratio)
+    # print(brand)
     result = cursor.execute(query, parameter)
-    
+
     rows = result.fetchall()
     connect.close()
     return response(rows)

@@ -230,32 +230,28 @@ def insertElevenSpeedData():
 
 elevenspdSQL = '''SELECT cassettes_11spd.brand, cassettes_11spd.model, cassettes_11spd.partNumber, cassettes_11spd.speed, cassettes_11spd.ratio, distributor_table.distributor_name, cassettes_11spd.rrp, distributor_table.distributor_link_url 
         FROM cassettes_11spd, distributor_table WHERE cassettes_11spd.distributor_id = distributor_table.distributor_id '''
-def get_speed_11spd_all():
+
+def get_11spd(speed:str, ratio:str, brand:str):
+    query = elevenspdSQL
+    parameter = []
+    if speed != "all":
+        query += "AND speed=?"
+        parameter.append(speed)
+
+    if ratio != "all":
+        query += "AND ratio=?"
+        parameter.append(ratio)
+    
+    if brand != "all":
+        query += "AND brand=?"
+        parameter.append(brand)
+
     connect = connect_database()
-    cursor = connect.cursor()
-    result = cursor.execute(elevenspdSQL)
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_speed_11spd(speed: int):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(speed)
-    cursor = connect.cursor()
-    result = cursor.execute(elevenspdSQL + "AND speed=?", [speed])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_speed_ratio_11spd(ratio: str):
-    connect = connect_database()
-    cursor = connect.cursor()
-    print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute(elevenspdSQL + "AND speed=11 AND ratio=?", [ratio])
+    cursur = connect.cursor()
+    # print(speed)
+    # print(ratio)
+    # print(brand)
+    result = cursur.execute(query, parameter)
 
     rows = result.fetchall()
     connect.close()

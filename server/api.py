@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database.cassette_finder_script import get_speed_9spd_all, get_speed_10spd_all, get_speed_11spd_all
-from database.cassette_finder_script import get_speed_ratio_9spd , get_speed_ratio_10spd, get_speed_ratio_11spd, get_speed_ratio_brand_8spd
+from database.tables.eight_speed import get_8spd
+from database.tables.nine_speed import get_9spd
 
 app = Flask(__name__)
 # NOTE: This allows any web address to call the API - so we no longer need the 'no-cors' call in the frontend
@@ -19,7 +19,10 @@ def ratio(speed, ratio, brand):
     print(f"Ratio: {ratio}")
     print(f"Brand: {brand}")
 
-    result = get_speed_ratio_brand_8spd(speed, ratio, brand)
+    spd8 = get_8spd(speed, ratio, brand)
+    spd9 = get_9spd(speed, ratio, brand)
+
+    result = spd8 + spd9
 
     return jsonify(result)
 

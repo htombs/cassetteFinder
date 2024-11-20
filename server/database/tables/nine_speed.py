@@ -142,32 +142,28 @@ def insertNineSpeedData():
 ninespdSQL = '''SELECT cassettes_9spd.brand, cassettes_9spd.model, cassettes_9spd.partNumber, cassettes_9spd.speed, cassettes_9spd.ratio, distributor_table.distributor_name, cassettes_9spd.rrp, distributor_table.distributor_link_url 
         FROM cassettes_9spd, distributor_table WHERE cassettes_9spd.distributor_id = distributor_table.distributor_id '''  
 
-def get_speed_9spd_all():
+def get_9spd(speed: str, ratio: str, brand: str):
+    query = ninespdSQL
+    parameter = []
+    if speed != "all":
+        query += "AND speed=?"
+        parameter.append(speed)
+    
+    if ratio != "all":
+        query += "AND ratio=?"
+        parameter.append(ratio)
+
+    if brand != "all":
+        query += "AND brand=?"
+        parameter.append(brand)
+
     connect = connect_database()
     cursor = connect.cursor()
-    result = cursor.execute(ninespdSQL)
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_speed_9spd(speed: int):
     print(speed)
-    connect = connect_database()
-    cursor = connect.cursor()
-    result = cursor.execute(ninespdSQL + "AND speed=?", [speed])
-
-    rows = result.fetchall()
-    connect.close()
-    return response(rows)
-
-def get_speed_ratio_9spd(ratio: str):
-    connect = connect_database()
-    cursor = connect.cursor()
     print(ratio)
-    cursor = connect.cursor()
-    result = cursor.execute(ninespdSQL + "AND speed=9 AND ratio=?", [ratio])
-
+    print(brand)
+    result = cursor.execute(query, parameter)
+    
     rows = result.fetchall()
     connect.close()
     return response(rows)

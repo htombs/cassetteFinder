@@ -12,6 +12,7 @@ If this is successful, I'd love to expand to other parts of a bike, but for the 
  - Python 3+
  - nodejs 20+
  - flask
+ - sqlite3
 
 ### Running the API locally
 

@@ -11,6 +11,7 @@ If this is successful, I'd love to expand to other parts of a bike, but for the 
  - git
  - Python 3+
  - nodejs 20+
+ - flask
 
 ### Running the API locally
 

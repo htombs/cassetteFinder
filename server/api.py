@@ -9,7 +9,7 @@ app = Flask(__name__)
 # NOTE: This allows any web address to call the API - so we no longer need the 'no-cors' call in the frontend
 # We limit this to just the two localhost addresses with their ports for security reasons =]
 # 5000 is this API, 8080 is the website / frontend
-CORS(app, origins=['http://localhost:5000', 'http://localhost:8080', 'http://127.0.0.1:5000', 'http://127.0.0.1:5500'])
+CORS(app, origins=['http://localhost:5000', 'http://localhost:8080', 'http://127.0.0.1:5000', 'http://127.0.0.1:5500', 'http://127.0.0.1:8080'])
 
 @app.route("/")
 def home():

@@ -6,8 +6,8 @@ def createCassettesTable():
     # opens a connection to the database as opened in database.py
     cursor = connect.cursor()
     # creates a cursor so we can interact with the database and write SELECT statements and other SQL statement 
-    cursor.execute('''CREATE TABLE IF NOT EXISTS cassettesTable
-               (id INT PRIMARY KEY,
+    cursor.execute('''CREATE TABLE IF NOT EXISTS cassettes_table
+               (id INTEGER PRIMARY KEY,
                brand VARCHAR(255),
                model VARCHAR(255),
                partNumber VARCHAR(255),
@@ -18,7 +18,7 @@ def createCassettesTable():
                distributor_id INT,
                FOREIGN KEY (distributor_id) REFERENCES distributor_table (distributor_id))''')
     # cursor.excecute tells the database to perform the task in brackets, in this case the SQL statement where we create a table
-    # CREATE TABLE IF NOT EXISTS is used to avoid multiple variation of cassettesTable being created, that's quite annoying later on if you have multiples of the same table
+    # CREATE TABLE IF NOT EXISTS is used to avoid multiple variation of cassettes_table being created, that's quite annoying later on if you have multiples of the same table
     # SQL is also case sensitive and when naming tables, needs to begin with a letter, not and number. The table used to be called 8_speed_cassettes, but had to be changed
     # ''' are used in python when performing complex lined SQL statements. "" can also be used but I've found them not as reliable for the big stuff
     connect.commit()
@@ -563,16 +563,16 @@ def insertCassettesData():
         ("SRAM", "XG1190", "FW18067004", 11, "11-32", "ZyroFisher", 352.00, 8),
         ("SRAM", "XG1150", "FW1151042", 11, "10-42", "ZyroFisher", 151.00, 8),
         ("SRAM", "XX1 XG1199", "FWXX1042", 11, "10-42", "ZyroFisher", 392.00, 8)]
-    # Here we are creating all the data that will be inserted into the cassettesTable table in the form of a list [] named: data be sure to use the correct number of columns as stated in the CREATE TABLE statement
+    # Here we are creating all the data that will be inserted into the cassettes_table table in the form of a list [] named: data be sure to use the correct number of columns as stated in the CREATE TABLE statement
 
-    cursor.executemany("REPLACE INTO cassettesTable VALUES(?, ?, ?, ?, ?, ?, ?, ?)", data)
+    cursor.executemany("INSERT INTO cassettes_table (brand, model, partnumber, speed, ratio, distributor, rrp, distributor_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", data)
     # Now we use .excecutemany to insert multiple parameters, we use ? as placeholders for those parameters, and "data" to tell the statement what inforamtion to put instead of the placeholders. The ? are the same number as coloumns created and data listed above
 
     connect.commit()
     connect.close()
 
-cassDataSQL = '''SELECT cassettesTable.brand, cassettesTable.model, cassettesTable.partNumber, cassettesTable.speed, cassettesTable.ratio, distributor_table.distributor_name, cassettesTable.rrp, distributor_table.distributor_link_url 
-        FROM cassettesTable, distributor_table WHERE cassettesTable.distributor_id = distributor_table.distributor_id '''
+cassDataSQL = '''SELECT cassettes_table.brand, cassettes_table.model, cassettes_table.partNumber, cassettes_table.speed, cassettes_table.ratio, distributor_table.distributor_name, cassettes_table.rrp, distributor_table.distributor_link_url 
+        FROM cassettes_table, distributor_table WHERE cassettes_table.distributor_id = distributor_table.distributor_id '''
     # Here we create a simple SELECT statment to pull all the relevent information taht we want to show the client
 
 def get_spd(speed: str, ratio: str, brand: str):
@@ -606,3 +606,14 @@ def get_spd(speed: str, ratio: str, brand: str):
     rows = result.fetchall()
     connect.close()
     return response(rows)
+
+def dropCassTable():
+    connect = connect_database()
+    cursor = connect.cursor()
+
+    dropSQL = '''DROP TABLE cassettes_table'''
+ 
+    cursor.execute(dropSQL)
+
+    connect.commit()
+    connect.close()

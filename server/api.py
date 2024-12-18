@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database.tables.eight_speed import get_spd
+from server.database.tables.cassettesTable import get_spd
 # from database.tables.nine_speed import get_9spd
 # from database.tables.ten_speed import get_10spd
 # from database.tables.eleven_speed import get_11spd

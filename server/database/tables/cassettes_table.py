@@ -566,7 +566,7 @@ def insertCassettesData():
     # Here we are creating all the data that will be inserted into the cassettes_table table in the form of a list [] named: data be sure to use the correct number of columns as stated in the CREATE TABLE statement
 
     cursor.executemany("INSERT INTO cassettes_table (brand, model, partnumber, speed, ratio, distributor, rrp, distributor_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", data)
-    # Now we use .excecutemany to insert multiple parameters, we use ? as placeholders for those parameters, and "data" to tell the statement what inforamtion to put instead of the placeholders. The ? are the same number as coloumns created and data listed above
+    # Now we use .excecutemany to insert multiple parameters, we use ? as placeholders for those parameters, and "data" to tell the statement what inforamtion to put instead of the placeholders. The ? must be the same number as coloumns created and data listed above
 
     connect.commit()
     connect.close()
@@ -578,9 +578,7 @@ cassDataSQL = '''SELECT cassettes_table.brand, cassettes_table.model, cassettes_
 def get_spd(speed: str, ratio: str, brand: str):
     # this funciton is listing all possible parameters (dropdown options) needed to run: speed, ratio, brand. The purpose is to add the data when it is selected from the dropdown option on the website
     query = cassDataSQL
-    # to use the cassDataSQL statement created earlier, we need to assign it a new name, in this case: query
     parameter = []
-    # an empty list is created called parameter that we can add to later
     if speed != "all":
     # if statement to decide what happens if "all" option is not selected (referencing script.js "const form" for "Submit" button line 82)
         query += "AND speed=?"
@@ -596,10 +594,7 @@ def get_spd(speed: str, ratio: str, brand: str):
         query += "AND brand=?"
         parameter.append(brand)
 
-
-    # as with all other SQLite3 functions we've used, we need to close the connection to the database
     connect = connect_database()
-    # opens a connection to the database
     cursor = connect.cursor()
     result = cursor.execute(query, parameter)
 

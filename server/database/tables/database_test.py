@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock,
+from unittest.mock import MagicMock
 import unittest
 import sqlite3
 from server.database.tables.database import connect_database, row_to_dict, response

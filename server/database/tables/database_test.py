@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock,Mock
 import unittest
 import sqlite3
-from database.tables.database import connect_database, row_to_dict
+from server.database.tables.database import connect_database, row_to_dict
 from pathlib import WindowsPath
 
 class MyTests(unittest.TestCase):

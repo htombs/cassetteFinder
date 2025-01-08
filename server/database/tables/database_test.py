@@ -2,7 +2,7 @@ from unittest.mock import MagicMock,Mock
 import unittest
 import sqlite3
 from server.database.tables.database import connect_database, row_to_dict
-from pathlib import WindowsPath
+from pathlib import WindowsPath, Path
 
 class MyTests(unittest.TestCase):
 
@@ -11,7 +11,7 @@ class MyTests(unittest.TestCase):
         sqlite3.connect = MagicMock(return_value='connection succeeded')
 
         dbc = connect_database()
-        sqlite3.connect.assert_called_with(WindowsPath('C:/Users/hazto/Documents/Work/cassette.finder/server/database/tables/cassette_finder.db'))
+        sqlite3.connect.assert_called_with(WindowsPath(f"{Path.cwd()}/server/database/tables/cassette_finder.db")) #WindowsPath('C:/Users/hazto/Documents/Work/cassette.finder/server/database/tables/cassette_finder.db'
         self.assertEqual(dbc,'connection succeeded')
     
     def test_row_to_dict(self):

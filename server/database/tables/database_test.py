@@ -1,8 +1,8 @@
-from unittest.mock import MagicMock,Mock
+from unittest.mock import MagicMock
 import unittest
 import sqlite3
-from database.tables.database import connect_database, row_to_dict
-from pathlib import WindowsPath
+from server.database.tables.database import connect_database, row_to_dict, response
+from pathlib import WindowsPath, Path
 
 class MyTests(unittest.TestCase):
 
@@ -11,7 +11,7 @@ class MyTests(unittest.TestCase):
         sqlite3.connect = MagicMock(return_value='connection succeeded')
 
         dbc = connect_database()
-        sqlite3.connect.assert_called_with(WindowsPath('C:/Users/hazto/Documents/Work/cassette.finder/server/database/tables/cassette_finder.db'))
+        sqlite3.connect.assert_called_with(WindowsPath(f"{Path.cwd()}/server/database/tables/cassette_finder.db")) 
         self.assertEqual(dbc,'connection succeeded')
     
     def test_row_to_dict(self):
@@ -21,5 +21,10 @@ class MyTests(unittest.TestCase):
         self.assertEqual(got, want, "it didnt work")
 
     def test_response(self):
-        input_list = []
-        # THIS NEEDS TO BE FINISHED, will pick up at later date
+        row1 = (1, "Shimano", "HG400", "CSHG4008145", 8, "11-45", "Madison", 36.99, 6)
+        row2 = (2, "Shimano", "HG400", "CSHG4008145", 8, "11-45", "Madison", 36.99, 6)
+        row3 = (3, "Shimano", "HG400", "CSHG4008145", 8, "11-45", "Madison", 36.99, 6)
+        input_list = [row1, row2, row3]
+        got = response(input_list)
+        want = [row_to_dict(row1), row_to_dict(row2), row_to_dict(row3)]
+        self.assertEqual(got, want, "it didnt work")

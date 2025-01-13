@@ -8,7 +8,7 @@ from pathlib import WindowsPath, Path
 def connect_test_database(self):
     return sqlite3.connect(WindowsPath(f"{Path.cwd()}/server/database/tables/cassette_finder_test.db"))
 
-class TestCreateCassettesTable(unittest.TestCase):
+class TestCassettesTable(unittest.TestCase):
 
     def test_sqlite3_connect_success(self):        
         

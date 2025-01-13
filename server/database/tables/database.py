@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+
 THIS_FOLDER = Path(__file__).parent.resolve()
 db = THIS_FOLDER / "cassette_finder.db"
 

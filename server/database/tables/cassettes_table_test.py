@@ -20,10 +20,11 @@ class TestCassettesTable(unittest.TestCase):
 
     def test_createCassettesTable(self):
         with patch('server.database.tables.cassettes_table.connect_database'):
-            conn = connect_test_database()
+            conn = sqlite3.connect(WindowsPath(f"{Path.cwd()}/server/database/tables/cassette_finder_test.db"))
             cursor = conn.cursor()
             createCassettesTable()
-            sqlSelect = '''SELECT speed FROM cassettes_table'''
+            insertCassettesData()
+            sqlSelect = '''SELECT * FROM cassettes_table'''
             sql = cursor.execute(sqlSelect)
             speed = []
             conn.commit()
@@ -35,10 +36,10 @@ class TestCassettesTable(unittest.TestCase):
         speed = "10"
         ratio = "11-42"
         brand = "shimano"
-        result = speed + ratio + brand
+        result = f"{speed}" + f"{ratio}" + f"{brand}"
         # input_list = [speed, ratio, brand]
-        got = get_spd(result)
-        want = list["10", "11-42", "shimano"]
+        got = '''SELECT * FROM cassettes_table WHERE speed = 10 AND ratio = 11-42 AND brand = shimano'''
+        want = result
         self.assertEqual(got, want, "it didnt work")
 
 if __name__ == '__main__':

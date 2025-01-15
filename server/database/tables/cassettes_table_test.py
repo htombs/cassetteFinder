@@ -14,9 +14,9 @@ class TestCassettesTable(unittest.TestCase):
         
         sqlite3.connect = MagicMock(return_value='connection succeeded')
 
-        dbc = connect_database()
+        conn = connect_database()
         sqlite3.connect.assert_called_with(WindowsPath(f"{Path.cwd()}/server/database/tables/cassette_finder.db"))
-        self.assertEqual(dbc,'connection succeeded')
+        self.assertEqual(conn,'connection succeeded')
 
     def test_createCassettesTable(self):
         with patch('server.database.tables.cassettes_table.connect_database'):
@@ -35,8 +35,9 @@ class TestCassettesTable(unittest.TestCase):
         speed = "10"
         ratio = "11-42"
         brand = "shimano"
+        result = speed + ratio + brand
         # input_list = [speed, ratio, brand]
-        got = get_spd(speed, ratio, brand)
+        got = get_spd(result)
         want = list["10", "11-42", "shimano"]
         self.assertEqual(got, want, "it didnt work")
 

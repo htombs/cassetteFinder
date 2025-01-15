@@ -23,7 +23,8 @@ class TestCassettesTable(unittest.TestCase):
             conn = connect_test_database()
             cursor = conn.cursor()
             createCassettesTable()
-            sql = cursor.execute('''SELECT speed FROM cassettes_table''')
+            sqlSelect = '''SELECT speed FROM cassettes_table'''
+            sql = cursor.execute(sqlSelect)
             speed = []
             conn.commit()
             rows = sql.fetchall()

@@ -1,11 +1,28 @@
 import sqlite3
-from pathlib import Path
 
-THIS_FOLDER = Path(__file__).parent.resolve()
-db = THIS_FOLDER / "cassette_finder.db"
 
-def connect_database():
-    return sqlite3.connect(db)
+class Database():
+    def __init__(self, dbname='cassette_finder.db'):
+        try:
+            self.connection = sqlite3.connect(dbname, check_same_thread=False)
+        except:
+            print('Error')
+        finally:
+            pass
+    
+    def run(self, query: str, parameters: str) -> list:
+        cursor = self.connection.cursor()
+        rows = cursor.execute(query, parameters).fetchall()
+        self.connection.commit()
+        cursor.close()
+        return rows
+    
+    def run_many(self, query: str, parameters: str) -> list:
+        cursor = self.connection.cursor()
+        rows = cursor.executemany(query, parameters).fetchall()
+        self.connection.commit()
+        cursor.close()
+        return rows
 
 # This function turns a row from the db into an object, for easier usage
 # NOTE: Notice that the row indexes correlate to the SELECT names from the SQL Query

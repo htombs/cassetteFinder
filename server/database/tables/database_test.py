@@ -1,18 +1,8 @@
-from unittest.mock import MagicMock
 import unittest
 import sqlite3
-from server.database.tables.database import connect_database, row_to_dict, response
-from pathlib import WindowsPath, Path
+from server.database.tables.database import row_to_dict, response
 
 class MyTests(unittest.TestCase):
-
-    def test_sqlite3_connect_success(self):
-
-        sqlite3.connect = MagicMock(return_value='connection succeeded')
-
-        dbc = connect_database()
-        sqlite3.connect.assert_called_with(WindowsPath(f"{Path.cwd()}/server/database/tables/cassette_finder.db")) 
-        self.assertEqual(dbc,'connection succeeded')
     
     def test_row_to_dict(self):
         input_list = ["test-brand", "test-model", "test-part_number", "test-speed", "test-ratio", "test-distributor", "test-rrp", "test-link"]

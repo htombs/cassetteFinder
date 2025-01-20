@@ -40,7 +40,7 @@ def cassettes(speed, ratio, brand):
     print(f"Brand: {brand}")
 
     table = CassettesTable()
-    result =table.get_cassettes(speed=speed, ratio=ratio, brand=brand)
+    result = table.get_cassettes(speed=speed, ratio=ratio, brand=brand)
     return jsonify(result)
 
 

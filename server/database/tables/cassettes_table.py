@@ -7,7 +7,6 @@ class CassettesTable():
         self.table_name = "cassettes_table"
 
     def create(self) -> list:
-        # creates a cursor so we can interact with the database and write SELECT statements and other SQL statement 
         query = f'''CREATE TABLE IF NOT EXISTS {self.table_name}
                    (id INTEGER PRIMARY KEY,
                    brand VARCHAR(255),

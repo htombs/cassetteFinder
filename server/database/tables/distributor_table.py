@@ -1,6 +1,5 @@
 from .database import Database
 
-
 class DistributorTable():
     
     def __init__(self, db=Database()):

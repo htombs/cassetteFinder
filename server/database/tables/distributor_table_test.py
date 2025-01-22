@@ -4,7 +4,7 @@ from server.database.tables.distributor_table import DistributorTable
 from server.database.tables.database import Database
 
 
-class TestCassettesTable(unittest.TestCase):
+class TestDistributorTable(unittest.TestCase):
 
     def test_distributors_table_create(self):
         test_database = Database(dbname=':memory:')

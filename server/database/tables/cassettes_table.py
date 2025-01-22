@@ -593,3 +593,6 @@ class CassettesTable():
 
         rows = self.select(query, parameters)
         return response(rows)
+    
+    def drop(self) -> None:
+        return self.db.run(f"DROP TABLE IF EXISTS {self.table_name}", [])

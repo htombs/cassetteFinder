@@ -43,6 +43,18 @@ def cassettes(speed, ratio, brand):
     result = table.get_cassettes(speed=speed, ratio=ratio, brand=brand)
     return jsonify(result)
 
+@app.route("/__drop")
+def drop():
+    db = Database()
+
+    distributors = DistributorTable(db=db)
+    distributors.drop()
+
+    cassettes = CassettesTable(db=db)
+    cassettes.drop()
+
+    return jsonify({"message": "Database dropped"})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

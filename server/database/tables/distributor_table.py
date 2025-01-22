@@ -5,7 +5,7 @@ from .database import Database
 class DistributorTable():
     
     def __init__(self, db=Database()):
-        self.db = db.connection
+        self.db = db
         self.table_name = "distributor_table"
     
     def create(self) -> list:
@@ -14,11 +14,8 @@ class DistributorTable():
             distributor_name VARCHAR(255),
             distributor_link_url VARCHAR(255))'''
 
-        cursor = self.db.cursor()
-        rows = cursor.execute(query).fetchall()
-        cursor.close()
-        return rows
-
+        return self.db.run(query, [])
+    
     def seed(self) -> list:
         data = [
             ("Bob Elliot", "https://www.bob-elliot.co.uk/"),
@@ -30,21 +27,16 @@ class DistributorTable():
             ("Upgrade", "https://www.upgradebikes.co.uk/"),
             ("ZyroFisher", "https://www.zyrofisherb2b.co.uk/")
         ]
-        cursor = self.db.cursor()
-        result = cursor.executemany(f"INSERT INTO {self.table_name} (distributor_name, distributor_link_url) VALUES(?, ?)", data) 
-
-        rows = result.fetchall()
-        cursor.close()
-        return rows
+        return self.db.run_many(f"INSERT INTO {self.table_name} (distributor_name, distributor_link_url) VALUES (?, ?)", data)
 
         
     def select(self, query: str, parameters: list) -> list:
-        cursor = self.db.cursor()
-        rows = cursor.execute(query, parameters).fetchall()
-        cursor.close()
-        return rows
+        return self.db.run(query, parameters)
 
     def get_distributor(self, name: str) -> list:
         query = f"SELECT distributor_name, distributor_link_url FROM {self.table_name} WHERE distributor_name = ?"
         parameters = [name]
         return self.select(query, parameters)
+    
+    def drop(self) -> None:
+        return self.db.run(f"DROP TABLE IF EXISTS {self.table_name}", [])

@@ -1,11 +1,28 @@
 import sqlite3
-from pathlib import Path
 
-THIS_FOLDER = Path(__file__).parent.resolve()
-db = THIS_FOLDER / "cassette_finder.db"
 
-def connect_database():
-    return sqlite3.connect(db)
+class Database():
+    def __init__(self, dbname='cassette_finder.db'):
+        try:
+            self.connection = sqlite3.connect(dbname, check_same_thread=False)
+        except:
+            print('Error')
+        finally:
+            pass
+    
+    def run(self, query: str, parameters: str) -> list:
+        cursor = self.connection.cursor()
+        rows = cursor.execute(query, parameters).fetchall()
+        self.connection.commit()
+        cursor.close()
+        return rows
+    
+    def run_many(self, query: str, parameters: str) -> list:
+        cursor = self.connection.cursor()
+        rows = cursor.executemany(query, parameters).fetchall()
+        self.connection.commit()
+        cursor.close()
+        return rows
 
 # This function turns a row from the db into an object, for easier usage
 # NOTE: Notice that the row indexes correlate to the SELECT names from the SQL Query
@@ -31,8 +48,6 @@ def row_to_dict(row: list):
             result["link"] = item
 
     return result
-
-   # return {"brand": row[0], "model": row[1], "part_number": row[2],"speed": row[3],"ratio": row[4],"distributor": row[5],"rrp": row[6], "link": row[7]}
 
 # This is a wrapper function that takes the default rows list and turns it into 
 # a list of dictionaries for easier readability.

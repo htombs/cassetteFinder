@@ -1,6 +1,9 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from database.tables.cassettes_table import get_spd
+
+from server.database.tables.database import Database
+from server.database.tables.cassettes_table import CassettesTable
+from server.database.tables.distributor_table import DistributorTable
 
 app = Flask(__name__)
 # NOTE: This allows any web address to call the API - so we no longer need the 'no-cors' call in the frontend
@@ -12,17 +15,46 @@ CORS(app, origins=['http://localhost:5000', 'http://localhost:8080', 'http://127
 def home():
     return jsonify({"message": "Welcome to the Cassette Finder API"})
 
+
+@app.route("/__seed")
+def seed():
+    db = Database()
+
+    distributors = DistributorTable(db=db)
+    distributors.create()
+    distributors.seed()
+    d = distributors.select(f"SELECT * FROM {distributors.table_name}",[])
+
+    cassettes = CassettesTable(db=db)
+    cassettes.create()
+    c = cassettes.seed()
+
+    response = {"distributors": d, "cassettes": c}
+
+    return jsonify({"message": "Database seeded", "data": response})
+
 @app.route("/speed/<speed>/ratio/<ratio>/brand/<brand>")
-def ratio(speed, ratio, brand):
+def cassettes(speed, ratio, brand):
     print(f"Speed: {speed}")
     print(f"Ratio: {ratio}")
     print(f"Brand: {brand}")
 
-    spd = get_spd(speed, ratio, brand)
-
-    result = spd
-
+    table = CassettesTable()
+    result = table.get_cassettes(speed=speed, ratio=ratio, brand=brand)
     return jsonify(result)
+
+@app.route("/__drop")
+def drop():
+    db = Database()
+
+    distributors = DistributorTable(db=db)
+    distributors.drop()
+
+    cassettes = CassettesTable(db=db)
+    cassettes.drop()
+
+    return jsonify({"message": "Database dropped"})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

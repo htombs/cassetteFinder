@@ -1,25 +1,42 @@
 import sqlite3
-from .database import connect_database
+from .database import Database
 
-connect = connect_database()
-cursor = connect.cursor()
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS distributor_table (distributor_id INT PRIMARY KEY, distributor_name VARCHAR(255))''')
+class DistributorTable():
+    
+    def __init__(self, db=Database()):
+        self.db = db
+        self.table_name = "distributor_table"
+    
+    def create(self) -> list:
+        query = f'''CREATE TABLE IF NOT EXISTS {self.table_name} 
+            (distributor_id INTEGER PRIMARY KEY, 
+            distributor_name VARCHAR(255),
+            distributor_link_url VARCHAR(255))'''
 
-# cursor.execute('''ALTER TABLE distributor_table ADD distributor_link_url VARCHAR(255)''')
+        return self.db.run(query, [])
+    
+    def seed(self) -> list:
+        data = [
+            ("Bob Elliot", "https://www.bob-elliot.co.uk/"),
+            ("Chicken Cyclekit", "https://www.chickencyclekit.co.uk/"),
+            ("Greyville", "https://www.greyville.com/"),
+            ("Ison Distribution", "https://www.ison-distribution.com/"),
+            ("Mackadams", "https://www.mackadamfactors.co.uk/"),
+            ("Madison", "https://www.madisonb2b.co.uk/"),
+            ("Upgrade", "https://www.upgradebikes.co.uk/"),
+            ("ZyroFisher", "https://www.zyrofisherb2b.co.uk/")
+        ]
+        return self.db.run_many(f"INSERT INTO {self.table_name} (distributor_name, distributor_link_url) VALUES (?, ?)", data)
 
-connect.commit()
+        
+    def select(self, query: str, parameters: list) -> list:
+        return self.db.run(query, parameters)
 
-cursor.execute('''REPLACE INTO distributor_table (distributor_id, distributor_name, distributor_link_url) 
-               VALUES
-               (1, "Bob Elliot", "https://www.bob-elliot.co.uk/"),
-               (2, "Chicken Cyclekit", "https://www.chickencyclekit.co.uk/"),
-               (3, "Greyville", "https://www.greyville.com/"),
-               (4, "Ison Distribution", "https://www.ison-distribution.com/"),
-               (5, "Mackadams", "https://www.mackadamfactors.co.uk/"),
-               (6, "Madison", "https://www.madisonb2b.co.uk/"),
-               (7, "Upgrade", "https://www.upgradebikes.co.uk/"),
-               (8, "ZyroFisher", "https://www.zyrofisherb2b.co.uk/")
-               ''')
-
-connect.commit()
+    def get_distributor(self, name: str) -> list:
+        query = f"SELECT distributor_name, distributor_link_url FROM {self.table_name} WHERE distributor_name = ?"
+        parameters = [name]
+        return self.select(query, parameters)
+    
+    def drop(self) -> None:
+        return self.db.run(f"DROP TABLE IF EXISTS {self.table_name}", [])

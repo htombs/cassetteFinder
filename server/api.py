@@ -10,6 +10,9 @@ app = Flask(__name__)
 # We limit this to just the two localhost addresses with their ports for security reasons =]
 # 5000 is this API, 8080 is the website / frontend
 CORS(app, origins=['http://localhost:5000', 'http://localhost:8080', 'http://127.0.0.1:5000', 'http://127.0.0.1:5500', 'http://127.0.0.1:8080'])
+   
+def __init__(self, db=Database()):
+        self.db = db
 
 @app.route("/")
 def home():
@@ -29,9 +32,7 @@ def seed():
     cassettes.create()
     c = cassettes.seed()
 
-    response = {"distributors": d, "cassettes": c}
-
-    return jsonify({"message": "Database seeded", "data": response})
+    return jsonify({"message": "Database seeded"})
 
 @app.route("/speed/<speed>/ratio/<ratio>/brand/<brand>")
 def cassettes(speed, ratio, brand):

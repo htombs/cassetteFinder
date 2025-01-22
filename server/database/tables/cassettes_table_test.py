@@ -9,8 +9,9 @@ from server.database.tables.database import Database
 
 class TestCassettesTable(unittest.TestCase):
 
-    def test_cassettes_table_create(self):
+    def test_create(self):
         test_database = Database(dbname=':memory:')
+
         cassettes = CassettesTable(db=test_database)
         cassettes.create()
 
@@ -19,7 +20,7 @@ class TestCassettesTable(unittest.TestCase):
         self.assertEqual(got, want, f"test failed: got {got}, want {want}")
 
 
-    def test_get_cassette(self):
+    def test_get_cassettes(self):
         test_database = Database(dbname=':memory:')
 
         distributors = DistributorTable(db=test_database)

@@ -579,7 +579,7 @@ class CassettesTable():
         if speed != "all":
         # if statement to decide what happens if "all" option is not selected (referencing script.js "const form" for "Submit" button line 82)
             query += " AND speed=?"
-        # the += combines the cassDataSQL SELECT statement with "AND speed=?" at the end. A ? mark is again used as a placeholder in SQLite3
+        # the += combines the get_cassettes() SELECT statement with "AND speed=?" at the end. A ? mark is again used as a placeholder in SQLite3
             parameters.append(speed)
         # the .append(speed) takes the selected "speed" from the dropdown option and adds it to the "parameter" list
         

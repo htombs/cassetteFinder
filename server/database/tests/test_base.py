@@ -9,7 +9,7 @@ class BaseTestCase(TestCase):
         app.config['TESTING'] = True
         return app
     
-    def __init__(self, dbname='cassette_finder.db'):
+    def __init__(self, dbname=':memory:'):
         try:
             self.connection = sqlite3.connect(dbname, check_same_thread=False)
         except:

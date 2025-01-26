@@ -16,3 +16,11 @@ class api_test(BaseTestCase):
         response = api('/__seed')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Database seeded"})
+
+    def test_api_route_drop(self):
+        test_database = Database(dbname=':memory:')
+        api = app(db=test_database)
+
+        response = api('/__drop')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {"message": "Database dropped"})

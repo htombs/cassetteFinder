@@ -1,9 +1,9 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-from database.tables.database import Database
-from database.tables.cassettes_table import CassettesTable
-from database.tables.distributor_table import DistributorTable
+from .database.tables.database import Database
+from .database.tables.cassettes_table import CassettesTable
+from .database.tables.distributor_table import DistributorTable
 
 app = Flask(__name__)
 # NOTE: This allows any web address to call the API - so we no longer need the 'no-cors' call in the frontend

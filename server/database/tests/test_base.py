@@ -5,9 +5,11 @@ import sqlite3
 
 
 class BaseTestCase(TestCase):
-    def create_test_app(self):
+    def setUp(self):
         app.config['TESTING'] = True
-        return app
+        self.client = app.test_client()
+        self.test_database = Database(dbname=':memory:')
+        app.config['DATABASE'] = self.test_database
     
     def __init__(self, dbname=':memory:'):
         try:

@@ -1,5 +1,6 @@
 import unittest
 from server.api import app
+from server.database.tests.test_base import BaseTestCase
 from server.database.tables.database import Database
 from server.database.tables.cassettes_table import CassettesTable
 from server.database.tables.distributor_table import DistributorTable
@@ -50,9 +51,6 @@ class FlaskintegrationTestCase(unittest.TestCase):
         response = self.client.get('/__seed')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Database seeded"})
-
-
-
 
 if __name__ == '__main__':
     unittest.main()

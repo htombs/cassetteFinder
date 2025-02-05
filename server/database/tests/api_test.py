@@ -17,6 +17,22 @@ class FlaskintegrationTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Welcome to the Cassette Finder API"})
 
+    def test_api_route_drop(self):
+        # Verify that the tables were dropped
+        cassettes_table = CassettesTable(db=self.test_database)
+        with self.assertRaises(Exception):
+            cassettes_table.drop()
+            cassettes_table.select(f"SELECT * FROM {cassettes_table.table_name}", [])
+
+        distributors_table = DistributorTable(db=self.test_database)
+        with self.assertRaises(Exception):
+            distributors_table.drop()
+            distributors_table.select(f"SELECT * FROM {distributors_table.table_name}", [])
+
+        response = self.client.get('/__drop')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {"message": "Database dropped"})
+
     def test_api_route_seed(self):
         # Verify that the tables were created and seeded
         cassettes_table = CassettesTable(db=self.test_database)
@@ -36,26 +52,11 @@ class FlaskintegrationTestCase(unittest.TestCase):
         self.assertEqual(response.json, {"message": "Database seeded"})
 
 
-    def test_api_route_drop(self):
-        # Verify that the tables were dropped
-        cassettes_table = CassettesTable(db=self.test_database)
-        with self.assertRaises(Exception):
-            cassettes_table.drop()
-            cassettes_table.select(f"SELECT * FROM {cassettes_table.table_name}", [])
-
-        distributors_table = DistributorTable(db=self.test_database)
-        with self.assertRaises(Exception):
-            distributors_table.drop()
-            distributors_table.select(f"SELECT * FROM {distributors_table.table_name}", [])
-
-        response = self.client.get('/__drop')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"message": "Database dropped"})
 
 
 if __name__ == '__main__':
     unittest.main()
-# In this test, we are testing the API routes. We are testing the following routes:
+# In this test, we are testing the following API routes:
 #   - / : This route should return a welcome message   
 #   - /__seed : This route should seed the database with data
 #   - /__drop : This route should drop the database

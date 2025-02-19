@@ -43,6 +43,12 @@ header {
     flex-direction: row;
 }
 
+@media only screen and (max-width: 800px) {
+    #cassette_selector {
+        flex-direction: column;
+    }
+}
+
 .dropdown_container{
     display: flex;
     flex-direction: row;

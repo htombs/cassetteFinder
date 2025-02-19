@@ -29,11 +29,3 @@ class FlaskintegrationTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-# In this test, we are testing the following API routes:
-#   - / : This route should return a welcome message   
-#   - /__seed : This route should seed the database with data
-#   - /__drop : This route should drop the database
-# We are also testing that the tables are created and seeded when the /__seed route is called, and that the tables are dropped when the /__drop route is called.
-# To run the test, run the following command in the terminal:
-# python -m unittest server.database.tests.api_test
-# The test should pass if the API routes are working as expected.

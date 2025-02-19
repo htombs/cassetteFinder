@@ -27,7 +27,6 @@ class FlaskintegrationTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Database dropped"})
 
-
 if __name__ == '__main__':
     unittest.main()
 # In this test, we are testing the following API routes:

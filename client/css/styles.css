@@ -114,9 +114,10 @@ table {
     display: table;
 }
 
-/* th {
-    display: none; use this code to make the header appear on command rather that always be there
-} */
+th {
+    position: sticky;
+    top: 0px;
+}
 
 th, td {
     outline: 2px solid black;

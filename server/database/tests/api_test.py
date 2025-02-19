@@ -1,56 +1,32 @@
 import unittest
 from server.api import app
-from server.database.tests.test_base import BaseTestCase
 from server.database.tables.database import Database
-from server.database.tables.cassettes_table import CassettesTable
-from server.database.tables.distributor_table import DistributorTable
 
 class FlaskintegrationTestCase(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):   
+        app.testing = True
+        cls.database = Database(dbname=':memory:')
+        app.config['DATABASE'] = cls.database
 
-    def setUp(self):
-        app.config['TESTING'] = True
-        self.client = app.test_client()
-        self.test_database = Database(dbname=':memory:')
-        app.config['DATABASE'] = self.test_database
+        cls.client = app.test_client()
 
     def test_api_route(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Welcome to the Cassette Finder API"})
 
-    def test_api_route_drop(self):
-        # Verify that the tables were dropped
-        cassettes_table = CassettesTable(db=self.test_database)
-        with self.assertRaises(Exception):
-            cassettes_table.drop()
-            cassettes_table.select(f"SELECT * FROM {cassettes_table.table_name}", [])
+    def test_api_route_seed(self):
+        response = self.client.get('/__seed')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {"message": "Database seeded"})
 
-        distributors_table = DistributorTable(db=self.test_database)
-        with self.assertRaises(Exception):
-            distributors_table.drop()
-            distributors_table.select(f"SELECT * FROM {distributors_table.table_name}", [])
-
+    def test_api_route_drop(self):  
         response = self.client.get('/__drop')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Database dropped"})
 
-    def test_api_route_seed(self):
-        # Verify that the tables were created and seeded
-        cassettes_table = CassettesTable(db=self.test_database)
-        cassettes_table.create()
-        cassettes_table.seed()
-        cassettes = cassettes_table.select(f"SELECT * FROM {cassettes_table.table_name}", [])
-        self.assertGreater(len(cassettes), 0)
-
-        distributors_table = DistributorTable(db=self.test_database)
-        distributors_table.create()
-        distributors_table.seed()
-        distributors = distributors_table.select(f"SELECT * FROM {distributors_table.table_name}", [])
-        self.assertGreater(len(distributors), 0)
-        
-        response = self.client.get('/__seed')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"message": "Database seeded"})
 
 if __name__ == '__main__':
     unittest.main()

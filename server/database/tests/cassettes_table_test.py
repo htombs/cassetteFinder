@@ -8,7 +8,7 @@ from server.database.tables.database import Database
 class TestCassettesTable(unittest.TestCase):
 
     def test_create(self):
-        test_database = Database(dbname=':memory:')
+        test_database = Database(dbname = ':memory:')
 
         cassettes = CassettesTable(db=test_database)
         cassettes.create()

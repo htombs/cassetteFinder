@@ -22,12 +22,16 @@ def seed():
     distributors = DistributorTable(db=app.config["DATABASE"])
     distributors.create()
     distributors.seed()
+    d = distributors.select(f"SELECT * FROM {distributors.table_name}",[])
+
 
     cassettes = CassettesTable(db=app.config["DATABASE"])
     cassettes.create()
-    cassettes.seed()
+    c = cassettes.seed()
 
-    return jsonify({"message": "Database seeded"})
+    response = {"distributors": d, "cassettes": c}
+
+    return jsonify({"message": "Database seeded", "data": response})
 
 @app.route("/speed/<speed>/ratio/<ratio>/brand/<brand>")
 def cassettes(speed, ratio, brand):
@@ -44,7 +48,6 @@ def drop():
     cassettes.drop()
 
     return jsonify({"message": "Database dropped"})
-
 
 if __name__ == "__main__":
     app.run(debug=True)

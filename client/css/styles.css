@@ -9,6 +9,7 @@ body {
     font-family: "Poppins", sans-serif;
     font-size: 20px;
     color: white;
+    position: relative;
 }
 
 header {
@@ -30,9 +31,9 @@ header {
     font-size: 74px;
 }
 
-.small {
+/* .small {
     font-size: 24px;
-}
+} */
 
 .select_options {
     padding: 10px;

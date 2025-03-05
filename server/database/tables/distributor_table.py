@@ -1,6 +1,4 @@
-import sqlite3
 from .database import Database
-
 
 class DistributorTable():
     

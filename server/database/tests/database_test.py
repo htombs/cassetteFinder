@@ -1,8 +1,7 @@
 import unittest
-import sqlite3
 from server.database.tables.database import row_to_dict, response
 
-class MyTests(unittest.TestCase):
+class TestDatabase(unittest.TestCase):
     
     def test_row_to_dict(self):
         input_list = ["test-brand", "test-model", "test-part_number", "test-speed", "test-ratio", "test-distributor", "test-rrp", "test-link"]

@@ -2,9 +2,10 @@ import sqlite3
 
 
 class Database():
-    def __init__(self, dbname='cassette_finder.db'):
-        try:
-            self.connection = sqlite3.connect(dbname, check_same_thread=False)
+    def __init__(self, dbname ='cassette_finder.db'):
+        try: 
+            self.name = dbname
+            self.connection = sqlite3.connect(dbname, check_same_thread=False) 
         except:
             print('Error')
         finally:

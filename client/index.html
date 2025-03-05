@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cassette Finder: Home Page</title>
     <link rel="stylesheet" href="css/styles.css" media="screen" type="text/css"/>
+    <link rel="stylesheet" href="css/styles_mobile.css" media="screen" type="text/css"/>
     <script src="https://kit.fontawesome.com/01f26ab4ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -17,76 +18,77 @@
         <h3>Use the dropdown boxes below to find the cassette you're looking for</h3>
         <div class="select_options">
             <form id="cassette_selector">
-                <div class="dropdown_container">
-                    <h5 id="speed">Speed</h5>
-                    <div class="dropdown">
-                        <select name="speed" id="speed_dropdown">
-                            <option value="Any" selected>- Any -</option>
-                            <option value="8">8spd</option>
-                            <option value="9">9spd</option>
-                            <option value="10">10spd</option>
-                            <option value="11">11spd</option>
-                        </select>
+                <div class = "dropdown_options">
+                    <div class="dropdown_container">
+                        <h5 id="speed">Speed</h5>
+                        <div class="dropdown">
+                            <select name="speed" id="speed_dropdown">
+                                <option value="Any" selected>- Any -</option>
+                                <option value="8">8spd</option>
+                                <option value="9">9spd</option>
+                                <option value="10">10spd</option>
+                                <option value="11">11spd</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="dropdown_container">
-                <h5 id="ratio">Ratio</h5>
-                <div class="dropdown">
-                    <select name="ratio" id="ratio_dropdown">
-                        <option value="Any" selected>- Any -</option>
-                        <option value="10-42">10-42</option>
-                        <option value="10-45">10-45</option>
-                        <option value="10-46">10-46</option>
-                        <option value="10-51">10-51</option>
-                        <option value="11-23">11-23</option>
-                        <option value="11-25">11-25</option>
-                        <option value="11-26">11-26</option>
-                        <option value="11-27">11-27</option>
-                        <option value="11-28">11-28</option>
-                        <option value="11-29">11-29</option>
-                        <option value="11-30">11-30</option>
-                        <option value="11-32">11-32</option>
-                        <option value="11-34">11-34</option>
-                        <option value="11-36">11-36</option>
-                        <option value="11-38">11-38</option>
-                        <option value="11-39">11-39</option>
-                        <option value="11-40">11-40</option>
-                        <option value="11-41">11-41</option>
-                        <option value="11-42">11-42</option>
-                        <option value="11-43">11-43</option>
-                        <option value="11-45">11-45</option>
-                        <option value="11-46">11-46</option>
-                        <option value="11-48">11-48</option>
-                        <option value="11-50">11-50</option>
-                        <option value="11-51">11-51</option>
-                        <option value="12-23">12-23</option>
-                        <option value="12-25">12-25</option>
-                        <option value="12-26">12-26</option>
-                        <option value="12-27">12-27</option>
-                        <option value="12-28">12-28</option>
-                        <option value="12-29">12-29</option>
-                        <option value="12-30">12-30</option>
-                        <option value="12-32">12-32</option>
-                        <option value="12-34">12-34</option>
-                        <option value="12-36">12-36</option>
-                        <option value="12-42">12-42</option>
-                        <option value="12-46">12-46</option>
-                        <option value="12-50">12-50</option>
-                        <option value="13-23">13-23</option>
-                        <option value="13-26">13-26</option>
-                        <option value="13-28">13-28</option>
-                        <option value="13-29">13-29</option>
-                        <option value="13-30">13-30</option>
-                        <option value="14-23">14-23</option>
-                        <option value="14-28">14-28</option>
-                        <option value="16-23">16-23</option>
-                        <option value="16-27">16-27</option>
-                        <option value="16-29">16-29</option>
-                        <option value="16-30">16-30</option>
-                    </select>
-                </div>
-            </div>
-            <div class="dropdown_container">
+                    <div class="dropdown_container">
+                        <h5 id="ratio">Ratio</h5>
+                        <div class="dropdown">
+                            <select name="ratio" id="ratio_dropdown">
+                                <option value="Any" selected>- Any -</option>
+                                <option value="10-42">10-42</option>
+                                <option value="10-45">10-45</option>
+                                <option value="10-46">10-46</option>
+                                <option value="10-51">10-51</option>
+                                <option value="11-23">11-23</option>
+                                <option value="11-25">11-25</option>
+                                <option value="11-26">11-26</option>
+                                <option value="11-27">11-27</option>
+                                <option value="11-28">11-28</option>
+                                <option value="11-29">11-29</option>
+                                <option value="11-30">11-30</option>
+                                <option value="11-32">11-32</option>
+                                <option value="11-34">11-34</option>
+                                <option value="11-36">11-36</option>
+                                <option value="11-38">11-38</option>
+                                <option value="11-39">11-39</option>
+                                <option value="11-40">11-40</option>
+                                <option value="11-41">11-41</option>
+                                <option value="11-42">11-42</option>
+                                <option value="11-43">11-43</option>
+                                <option value="11-45">11-45</option>
+                                <option value="11-46">11-46</option>
+                                <option value="11-48">11-48</option>
+                                <option value="11-50">11-50</option>
+                                <option value="11-51">11-51</option>
+                                <option value="12-23">12-23</option>
+                                <option value="12-25">12-25</option>
+                                <option value="12-26">12-26</option>
+                                <option value="12-27">12-27</option>
+                                <option value="12-28">12-28</option>
+                                <option value="12-29">12-29</option>
+                                <option value="12-30">12-30</option>
+                                <option value="12-32">12-32</option>
+                                <option value="12-34">12-34</option>
+                                <option value="12-36">12-36</option>
+                                <option value="12-42">12-42</option>
+                                <option value="12-46">12-46</option>
+                                <option value="12-50">12-50</option>
+                                <option value="13-23">13-23</option>
+                                <option value="13-26">13-26</option>
+                                <option value="13-28">13-28</option>
+                                <option value="13-29">13-29</option>
+                                <option value="13-30">13-30</option>
+                                <option value="14-23">14-23</option>
+                                <option value="14-28">14-28</option>
+                                <option value="16-23">16-23</option>
+                                <option value="16-27">16-27</option>
+                                <option value="16-29">16-29</option>
+                                <option value="16-30">16-30</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dropdown_container">
                 <h5 id="brand">Brand</h5>
                 <div class="dropdown">
                     <select name="brand" id="brand_dropdown">
@@ -109,18 +111,23 @@
                         <option value="UNBRANDED">UNBRANDED</option>
                     </select>
                 </div>
-            </div>
+                    </div>
+                </div>
                 <br>
+                <h3>Then use the product code and the B2B link and you're good to go</h3>
+                <br>
+                <div class="submit_button">
+                    <input type="submit" ></input>
+                </div>
             </form>
-            <h3>Then use the product code and the B2B link and you're good to go</h3>
-        <br>
-        <div class="submit_button">
-            <input type="submit" ></input>
         </div>
-    </div>
-    <table>
-        <thead id="thead">
-            <tr>
+        <div class="mobile_table">
+            <ul id="mobile_output">
+            </ul>
+        </div>
+        <table>
+            <thead id="thead">
+                <tr>
                     <th>Brand</th>
                     <th>Series</th>
                     <th>Speed</th>

@@ -40,13 +40,11 @@ header {
 
 #cassette_selector{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
-@media only screen and (max-width: 800px) {
-    #cassette_selector {
-        flex-direction: column;
-    }
+.dropdown_options{
+    display: flex;
 }
 
 .dropdown_container{
@@ -108,6 +106,10 @@ input {
 
 input:hover {
     background-color:#9d9e9d;
+}
+
+.mobile_table {
+    display: none;
 }
 
 table {

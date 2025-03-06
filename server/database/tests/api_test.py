@@ -22,6 +22,19 @@ class FlaskintegrationTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Database seeded"})
 
+    def test_api_route_cassettes(self):
+        response = self.client.get('/speed/8/ratio/12-46/brand/Microshift')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {
+            "brand": "Microshift",
+            "distributor": "Ison Distribution",
+            "link": "https://www.ison-distribution.com/",
+            "model": "Acolyte",
+            "part_number": "CSMSH8246",
+            "ratio": "12-46",
+            "rrp": 39.99,
+            "speed": 8})
+
     def test_api_route_drop(self):  
         response = self.client.get('/__drop')
         self.assertEqual(response.status_code, 200)

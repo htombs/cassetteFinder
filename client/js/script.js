@@ -113,8 +113,6 @@ function addResultMobile(item) {
 // This is because there's only one form on the page.
 // WARNING: This event will _also_ fire if another form on this page is submitted as well.
 const form = document.querySelector('form').addEventListener('submit', (evt) => {
-    document.getElementById("scrollToTopBtn");
-    scrollToTopBtn.style.display = "block";
         // prevent the default form action taking place
         // This stops the page re-loading
     evt.preventDefault();

@@ -1,4 +1,4 @@
-from .database import Database, response
+from .database import Database
 
 
 class StockTable():

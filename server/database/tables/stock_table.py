@@ -16,7 +16,10 @@ class StockTable():
         
         return self.db.run(query, [])
 
-    def insert(self, data = []) -> list:
+    def insert(self, data = []) -> list: 
+        dist_id = data[0][2]
+        print("dist id: ",dist_id)
+        self.db.run(f"DELETE FROM {self.table_name} WHERE distributor_id = {dist_id}",[])
         return self.db.run_many(f"INSERT INTO {self.table_name} (part_number, stock_status, distributor_id) VALUES (?, ?, ?)", data)
     
     def drop(self) -> None:

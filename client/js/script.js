@@ -43,7 +43,7 @@ function addResult(item) {
     result.appendChild(resultPrice);
     
     const resultDistro = document.createElement('td');
-    resultDistro.textContent = `${item.stockStatus}`;
+    resultDistro.textContent = `${item.stock_status}`;
     result.appendChild(resultDistro);
     
     const resultLink = document.createElement('td');
@@ -94,7 +94,7 @@ function addResultMobile(item) {
     result.appendChild(resultPrice);
     
     const resultDistro = document.createElement('p');
-    resultDistro.textContent = `${item.stockStatus}`;
+    resultDistro.textContent = `${item.stock_status}`;
     result.appendChild(resultDistro);
     
     const resultLink = document.createElement('p');
@@ -180,6 +180,9 @@ const form = document.querySelector('form').addEventListener('submit', (evt) => 
                 mobile_output.innerHTML = 'No results found';
                 return
             }
+
+            console.log(data)
+
             // Because of how we build the API responses, the data will always be in an array.
             // So we can reliably call forEach.
             data.forEach(item => {

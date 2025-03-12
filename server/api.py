@@ -1,9 +1,13 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
+import json
 
 from database.tables.database import Database
 from database.tables.cassettes_table import CassettesTable
 from database.tables.distributor_table import DistributorTable
+from database.tables.stock_table import StockTable
+
+
 
 app = Flask(__name__)
 # NOTE: This allows any web address to call the API - so we no longer need the 'no-cors' call in the frontend
@@ -31,7 +35,12 @@ def seed():
 
     response = {"distributors": d, "cassettes": c}
 
+    stock = StockTable(db=app.config["DATABASE"])
+    stock.create()
+
     return jsonify({"message": "Database seeded", "data": response})
+
+
 
 @app.route("/speed/<speed>/ratio/<ratio>/brand/<brand>")
 def cassettes(speed, ratio, brand):
@@ -47,7 +56,25 @@ def drop():
     cassettes = CassettesTable(db=app.config["DATABASE"])
     cassettes.drop()
 
+    stock = StockTable(db=app.config["DATABASE"])
+    stock.drop()
+
     return jsonify({"message": "Database dropped"})
+
+@app.route("/__skus")
+def skus():
+    table = CassettesTable(db=app.config["DATABASE"])
+    result = table.get_skus()
+    return jsonify(result)
+
+@app.route("/stock", methods = ['POST'])
+def stock():
+    data = json.loads(request.get_json())
+
+    table = StockTable(db=app.config["DATABASE"])
+    result = table.insert(data)
+    return result
+
 
 if __name__ == "__main__":
     app.run(debug=True)

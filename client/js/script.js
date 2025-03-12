@@ -43,7 +43,7 @@ function addResult(item) {
     result.appendChild(resultPrice);
     
     const resultDistro = document.createElement('td');
-    resultDistro.textContent = `${item.distributor}`;
+    resultDistro.textContent = `${item.stockStatus}`;
     result.appendChild(resultDistro);
     
     const resultLink = document.createElement('td');
@@ -94,7 +94,7 @@ function addResultMobile(item) {
     result.appendChild(resultPrice);
     
     const resultDistro = document.createElement('p');
-    resultDistro.textContent = `${item.distributor}`;
+    resultDistro.textContent = `${item.stockStatus}`;
     result.appendChild(resultDistro);
     
     const resultLink = document.createElement('p');

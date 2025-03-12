@@ -47,6 +47,8 @@ def row_to_dict(row: list):
             result["rrp"] = item
         if item != "" and idx == 7:
             result["link"] = item
+        if item != "" and idx == 8:
+            result["stock_status"] = item
 
     return result
 

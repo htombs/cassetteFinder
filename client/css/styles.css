@@ -113,6 +113,14 @@ input:hover {
     display: none;
 }
 
+/* #desktop_table {
+    display: none;
+} */
+
+#thead {
+display: none;
+}
+
 table {
     display: table;
 }

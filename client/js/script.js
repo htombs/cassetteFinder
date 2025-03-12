@@ -2,6 +2,7 @@ const apiurl = 'http://localhost:5000';
 
 const output = document.getElementById('output');
 let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+const thead = document.getElementById('thead');
 
 // addResult simply takes an "item" JSON object
 // creates a table row "tr" for that item element
@@ -113,6 +114,7 @@ function addResultMobile(item) {
 // This is because there's only one form on the page.
 // WARNING: This event will _also_ fire if another form on this page is submitted as well.
 const form = document.querySelector('form').addEventListener('submit', (evt) => {
+    thead.style.display = 'table-header-group';
         // prevent the default form action taking place
         // This stops the page re-loading
     evt.preventDefault();

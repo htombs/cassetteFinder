@@ -16,7 +16,7 @@ if resp.ok:
     data = resp.content.decode()
     stockData = json.loads(data)
 
-csv = pd.read_csv(os.path.join(os.getcwd(),"jobs","zyro","ZyroEPOS.csv"), encoding='unicode_escape')
+csv = pd.read_csv(os.path.join(os.getcwd(),"jobs","zyro","Zyro.csv"), encoding='unicode_escape')
 df = pd.DataFrame(data=csv, columns=[sku,  stockIndicator])
 filteredCsv = df.query(f'{stockData} == ' + f'{sku}')
 

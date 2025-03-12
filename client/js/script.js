@@ -42,9 +42,9 @@ function addResult(item) {
     resultPrice.textContent = `£${item.rrp}`; 
     result.appendChild(resultPrice);
     
-    const resultDistro = document.createElement('td');
-    resultDistro.textContent = `${item.stock_status}`;
-    result.appendChild(resultDistro);
+    const resultStock = document.createElement('td');
+    resultStock.textContent = `${item.stock_status}`;
+    result.appendChild(resultStock);
     
     const resultLink = document.createElement('td');
     const link = document.createElement('a')
@@ -93,9 +93,9 @@ function addResultMobile(item) {
     resultPrice.textContent = `£${item.rrp}`; 
     result.appendChild(resultPrice);
     
-    const resultDistro = document.createElement('p');
-    resultDistro.textContent = `${item.stock_status}`;
-    result.appendChild(resultDistro);
+    const resultStock = document.createElement('p');
+    resultStock.textContent = `${item.stock_status}`;
+    result.appendChild(resultStock);
     
     const resultLink = document.createElement('p');
     const link = document.createElement('a')

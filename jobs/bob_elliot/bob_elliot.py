@@ -5,7 +5,7 @@ import requests
 import json
 
 sku = "StockCode"
-stockIndicator = "Stock"
+stockStatus = "Stock"
 indicator = "In Stock"
 distributorId = 1
 
@@ -17,7 +17,7 @@ if resp.ok:
     stockData = json.loads(data)
 
 csv = pd.read_csv(os.path.join(os.getcwd(),"jobs","bob_elliot","bob_elliot.csv"), encoding='unicode_escape')
-df = pd.DataFrame(data=csv, columns=[sku,  stockIndicator])
+df = pd.DataFrame(data=csv, columns=[sku,  stockStatus])
 filteredCsv = df.query(f'{stockData} == ' + f'{sku}')
 
 results = []
@@ -26,7 +26,7 @@ for i in stockData:
     key = filteredCsv[f"{sku}"]
     
     partnumber = filteredCsv[key.str.contains(i)]
-    result = partnumber.query(f'{stockIndicator} == "{indicator}"')
+    result = partnumber.query(f'{stockStatus} == "{indicator}"')
     if not result.empty:
         results.append((i, 1, distributorId))
     else:

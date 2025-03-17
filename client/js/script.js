@@ -43,7 +43,11 @@ function addResult(item) {
     result.appendChild(resultPrice);
     
     const resultStock = document.createElement('td');
-    resultStock.textContent = `${item.stock_status}`;
+    if (item.stock_status = 1) {
+        resultStock.textContent = "In Stock";
+    } else {
+        resultStock.textContent = "Not in Stock";
+    }
     result.appendChild(resultStock);
     
     const resultLink = document.createElement('td');
@@ -54,7 +58,6 @@ function addResult(item) {
     link.target = "_blank"; 
     resultLink.appendChild(link);
     result.appendChild(resultLink);
-    
     // adding the row to the table in the html file
     output.appendChild(result);
 }

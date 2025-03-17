@@ -41,12 +41,12 @@ function addResult(item) {
     const resultPrice = document.createElement('td');
     resultPrice.textContent = `£${item.rrp}`; 
     result.appendChild(resultPrice);
-    
+
     const resultStock = document.createElement('td');
-    if (item.stock_status = 1) {
+    if (item.stock_status == 1) {
         resultStock.textContent = "In Stock";
-    } else {
-        resultStock.textContent = "Not in Stock";
+        } else {
+            resultStock.textContent = "Not in Stock";
     }
     result.appendChild(resultStock);
     
@@ -58,6 +58,7 @@ function addResult(item) {
     link.target = "_blank"; 
     resultLink.appendChild(link);
     result.appendChild(resultLink);
+    
     // adding the row to the table in the html file
     output.appendChild(result);
 }
@@ -95,9 +96,13 @@ function addResultMobile(item) {
     const resultPrice = document.createElement('p');
     resultPrice.textContent = `£${item.rrp}`; 
     result.appendChild(resultPrice);
-    
+
     const resultStock = document.createElement('p');
-    resultStock.textContent = `${item.stock_status}`;
+    if (item.stock_status == 1) {
+        resultStock.textContent = "In Stock";
+        } else {
+            resultStock.textContent = "Not in Stock";
+    }
     result.appendChild(resultStock);
     
     const resultLink = document.createElement('p');
@@ -179,8 +184,8 @@ const form = document.querySelector('form').addEventListener('submit', (evt) => 
             // first, check if "data" actualy has anything in it
             if (data.length <= 0) {
                 // If it doesn't, just say we didn't get any results and skip everything else.
-                output.innerHTML = 'No results found';
-                mobile_output.innerHTML = 'No results found';
+                output.innerHTML = 'No cassettes found';
+                mobile_output.innerHTML = 'No cassettes found';
                 return
             }
 

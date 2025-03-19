@@ -42,10 +42,14 @@ function addResult(item) {
     const resultPrice = document.createElement('td');
     resultPrice.textContent = `£${item.rrp}`; 
     result.appendChild(resultPrice);
-    
-    const resultDistro = document.createElement('td');
-    resultDistro.textContent = `${item.distributor}`;
-    result.appendChild(resultDistro);
+
+    const resultStock = document.createElement('td');
+    if (item.stock_status == 1) {
+        resultStock.textContent = "In Stock";
+        } else {
+            resultStock.textContent = "Not in Stock";
+    }
+    result.appendChild(resultStock);
     
     const resultLink = document.createElement('td');
     const link = document.createElement('a')
@@ -93,10 +97,14 @@ function addResultMobile(item) {
     const resultPrice = document.createElement('p');
     resultPrice.textContent = `£${item.rrp}`; 
     result.appendChild(resultPrice);
-    
-    const resultDistro = document.createElement('p');
-    resultDistro.textContent = `${item.distributor}`;
-    result.appendChild(resultDistro);
+
+    const resultStock = document.createElement('p');
+    if (item.stock_status == 1) {
+        resultStock.textContent = "In Stock";
+        } else {
+            resultStock.textContent = "Not in Stock";
+    }
+    result.appendChild(resultStock);
     
     const resultLink = document.createElement('p');
     const link = document.createElement('a')
@@ -178,10 +186,13 @@ const form = document.querySelector('form').addEventListener('submit', (evt) => 
             // first, check if "data" actualy has anything in it
             if (data.length <= 0) {
                 // If it doesn't, just say we didn't get any results and skip everything else.
-                output.innerHTML = 'No results found';
-                mobile_output.innerHTML = 'No results found';
+                output.innerHTML = 'No cassettes found';
+                mobile_output.innerHTML = 'No cassettes found';
                 return
             }
+
+            console.log(data)
+
             // Because of how we build the API responses, the data will always be in an array.
             // So we can reliably call forEach.
             data.forEach(item => {

@@ -1,4 +1,3 @@
-import sqlite3
 from .database import Database, response
 
 class CassettesTable():
@@ -11,7 +10,7 @@ class CassettesTable():
                    (id INTEGER PRIMARY KEY,
                    brand VARCHAR(255),
                    model VARCHAR(255),
-                   partNumber VARCHAR(255),
+                   part_number VARCHAR(255),
                    speed INT,
                    ratio VARCHAR(10),
                    distributor VARCHAR(255),
@@ -556,7 +555,7 @@ class CassettesTable():
             ("SRAM", "XG1150", "FW1151042", 11, "10-42", "ZyroFisher", 151.00, 8),
             ("SRAM", "XX1 XG1199", "FWXX1042", 11, "10-42", "ZyroFisher", 392.00, 8)]
 
-        return self.db.run_many(f"INSERT INTO {self.table_name} (brand, model, partnumber, speed, ratio, distributor, rrp, distributor_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", data) 
+        return self.db.run_many(f"INSERT INTO {self.table_name} (brand, model, part_number, speed, ratio, distributor, rrp, distributor_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", data) 
 
     def select(self, query: str, parameters: list) -> list:
         return self.db.run(query=query, parameters=parameters)
@@ -566,14 +565,17 @@ class CassettesTable():
      # this function is listing all possible parameters (dropdown options) needed to run: speed, ratio, brand. The purpose is to add the data when it is selected from the dropdown option on the website
         query = f'''SELECT {self.table_name}.brand, 
                     {self.table_name}.model, 
-                    {self.table_name}.partNumber, 
+                    {self.table_name}.part_number, 
                     {self.table_name}.speed, 
                     {self.table_name}.ratio,
                     distributor_table.distributor_name, 
                     {self.table_name}.rrp, 
-                    distributor_table.distributor_link_url
-            FROM {self.table_name}, distributor_table 
-            WHERE {self.table_name}.distributor_id = distributor_table.distributor_id'''
+                    distributor_table.distributor_link_url,
+                    stock_table.stock_status
+            FROM {self.table_name}, distributor_table, stock_table
+            WHERE {self.table_name}.distributor_id = distributor_table.distributor_id
+            AND distributor_table.distributor_id = stock_table.distributor_id
+            AND {self.table_name}.part_number = stock_table.part_number'''
         
         parameters = []
         if speed != "all":
@@ -594,5 +596,17 @@ class CassettesTable():
         rows = self.select(query, parameters)
         return response(rows)
     
+    def get_skus(self):
+        query = f'''SELECT {self.table_name}.part_number
+        FROM {self.table_name}'''
+
+        rows = self.select(query, [])
+        flat_list = []
+
+        for row in rows:
+            for x in row:
+                flat_list.append(x)
+        return flat_list
+
     def drop(self) -> None:
         return self.db.run(f"DROP TABLE IF EXISTS {self.table_name}", [])

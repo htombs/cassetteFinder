@@ -29,6 +29,7 @@ class Database():
 # NOTE: Notice that the row indexes correlate to the SELECT names from the SQL Query
 # except the part number, because we use this as an "index"
 def row_to_dict(row: list):
+    print(row)
     result = {}
     for idx, item in enumerate(row):
         if item != "" and idx == 0:
@@ -47,6 +48,8 @@ def row_to_dict(row: list):
             result["rrp"] = item
         if item != "" and idx == 7:
             result["link"] = item
+        if item != "" and idx == 8:
+            result["stock_status"] = item
 
     return result
 

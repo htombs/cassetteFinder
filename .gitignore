@@ -13,6 +13,7 @@
 !*.md
 !*.nix
 !*.db
+!*.json
 
 
 # include rules in sub directories

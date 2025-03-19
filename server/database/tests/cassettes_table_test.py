@@ -2,6 +2,7 @@ import unittest
 import sqlite3
 from server.database.tables.cassettes_table import CassettesTable
 from server.database.tables.distributor_table import DistributorTable
+from server.database.tables.stock_table import StockTable
 from server.database.tables.database import Database
 
 
@@ -39,6 +40,10 @@ class TestCassettesTable(unittest.TestCase):
         cassettes = CassettesTable(db=test_database)
         cassettes.create()
         cassettes.seed()
+
+        stock = StockTable(db=test_database)
+        stock.create()
+        stock.insert()
 
         speed = "9"
         ratio = "11-34"

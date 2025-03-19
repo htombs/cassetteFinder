@@ -5,6 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "website",
+      "request": "launch",
+      "runtimeArgs": [
+        "http-server",
+        "-p 8080",
+      ],
+      "program": "client",
+      "runtimeExecutable": "npx",
+      "type": "node",
+      "console": "integratedTerminal"
+
+    },
+    {
       "name": "API",
       "type": "debugpy",
       "request": "launch",

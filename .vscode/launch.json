@@ -5,11 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "website",
+      "name": "Website",
       "request": "launch",
       "runtimeArgs": [
         "http-server",
-        "-p 8080",
+        "-p8080",
+        "-o "
       ],
       "program": "client",
       "runtimeExecutable": "npx",

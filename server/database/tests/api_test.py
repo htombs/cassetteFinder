@@ -57,11 +57,21 @@ class FlaskintegrationTestCase(unittest.TestCase):
         # stock_table.insert([["CSLG70011145", 1, 6]])
         
         self.client.get('/__seed')
+        # print("Cassettes Table Contents:", cassettes_table.select(f"SELECT * FROM {cassettes_table.table_name}", []))
         response = self.client.get('/speed/11/ratio/11-45/brand/Shimano')
         self.assertEqual(response.status_code, 200)
         print("Actual Response:", response.get_json())
 
-        expected_response = []
+        expected_response = {
+            "brand": "Shimano",
+            "distributor": "Madison",
+            "link": "https://www.madisonb2b.co.uk/",
+            "model": "LG700",
+            "part_number": "CSLG70011145",
+            "ratio": "11-45",
+            "rrp": 129.99,
+            "speed": 11
+        }
     
         self.assertEqual(response.get_json(), expected_response)
 

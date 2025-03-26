@@ -46,6 +46,7 @@ def seed():
 def cassettes(speed, ratio, brand):
     table = CassettesTable(db=app.config["DATABASE"])
     result = table.get_cassettes(speed=speed, ratio=ratio, brand=brand)
+    print("Queried data: ", result)
     return jsonify(result)
 
 @app.route("/__drop")

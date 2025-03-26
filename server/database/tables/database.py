@@ -11,6 +11,14 @@ class Database():
         finally:
             pass
     
+    def select(self, query, params=[]):
+        """
+        Executes a SELECT query and returns the results as a list of tuples.
+        """
+        cursor = self.connection.cursor()
+        cursor.execute(query, params)
+        return cursor.fetchall()
+    
     def run(self, query: str, parameters: str) -> list:
         cursor = self.connection.cursor()
         rows = cursor.execute(query, parameters).fetchall()

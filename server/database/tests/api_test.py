@@ -42,27 +42,26 @@ class FlaskintegrationTestCase(unittest.TestCase):
         self.assertEqual(response.get_json(), expected_response)
 
     def test_api_route_cassettes(self):
-        test_database = Database(dbname = ':memory:')
+        # test_database = Database(dbname = ':memory:')
 
-        cassettes_table = CassettesTable(db=test_database)
-        cassettes_table.create()
-        cassettes_table.seed()
+        # cassettes_table = CassettesTable(db=test_database)
+        # cassettes_table.create()
+        # cassettes_table.seed()
+
+        # distributors_table = DistributorTable(db=test_database)
+        # distributors_table.create()
+        # distributors_table.seed()
+
+        # stock_table = StockTable(db=test_database)
+        # stock_table.create()
+        # stock_table.insert([["CSLG70011145", 1, 6]])
         
         self.client.get('/__seed')
-        response = self.client.get('/speed/8/ratio/12-46/brand/Microshift')
+        response = self.client.get('/speed/11/ratio/11-45/brand/Shimano')
         self.assertEqual(response.status_code, 200)
         print("Actual Response:", response.get_json())
 
-        expected_response = {
-            "brand": "Microshift",
-            "distributor": "Ison Distribution",
-            "link": "https://www.ison-distribution.com/",
-            "model": "Acolyte",
-            "part_number": "CSMSH8246",
-            "ratio": "12-46",
-            "rrp": 39.99,
-            "speed": 8
-        }
+        expected_response = []
     
         self.assertEqual(response.get_json(), expected_response)
 

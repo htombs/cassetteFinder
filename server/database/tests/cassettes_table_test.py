@@ -35,22 +35,28 @@ class TestCassettesTable(unittest.TestCase):
 
         distributors = DistributorTable(db=test_database)
         distributors.create()
-        distributors.seed()       
+        distributors.seed()
+        # print("Distributors:", distributors.select(f"SELECT * FROM {distributors.table_name}", []))
         
         cassettes = CassettesTable(db=test_database)
         cassettes.create()
         cassettes.seed()
+        # print("Cassettes:", cassettes.select(f"SELECT * FROM {cassettes.table_name}", []))
 
         stock = StockTable(db=test_database)
         stock.create()
-        stock.insert()
+        stock_data = [
+            ["TIF709A", 0, 2]
+        ]
+        stock.insert(stock_data)
+        # print("Stock:", stock.select(f"SELECT * FROM {stock.table_name}", []))    
 
         speed = "9"
         ratio = "11-34"
         brand = "Tifosi"
         
         got = cassettes.get_cassettes(speed=speed, ratio=ratio, brand=brand)
-        want = [{'brand': 'Tifosi', 'model': '9X HG', 'part_number': 'TIF709A', 'speed': 9, 'ratio': '11-34', 'distributor': 'Chicken Cyclekit', 'rrp': 22.99, 'link': 'https://www.chickencyclekit.co.uk/'}] 
+        want = [{'brand': 'Tifosi', 'model': '9X HG', 'part_number': 'TIF709A', 'speed': 9, 'ratio': '11-34', 'distributor': 'Chicken Cyclekit', 'rrp': 22.99, 'link': 'https://www.chickencyclekit.co.uk/', 'stock_status': 0}] 
         self.assertEqual(got, want, f"test failed: got {got}, want {want}")
 
     def test_drop(self):

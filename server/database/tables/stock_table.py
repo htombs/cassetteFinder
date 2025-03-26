@@ -6,6 +6,12 @@ class StockTable():
         self.db = db
         self.table_name = "stock_table"
 
+    def select(self, query, params=[]):
+        """
+        Executes a SELECT query on the database and returns the results.
+        """
+        return self.db.select(query, params)
+
     def create(self) -> list:
         query = f'''CREATE TABLE IF NOT EXISTS {self.table_name}
                     (id INTEGER PRIMARY KEY,

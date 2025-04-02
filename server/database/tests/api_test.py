@@ -42,6 +42,38 @@ class FlaskintegrationTestCase(unittest.TestCase):
         self.assertEqual(response.get_json(), expected_response)
 
     def test_api_route_cassettes(self):
+        stock_table = StockTable(db=self.database)
+        stock_table.create()
+        stock_table.insert([["CSLG70011145", 1, 6]])
+        seed = self.client.get('/__seed')
+        self.assertEqual(seed.status_code, 200)
+        response = self.client.get('/speed/11/ratio/11-45/brand/Shimano')
+        self.assertEqual(response.status_code, 200)
+        print("Actual Response:", response.get_json())
+
+        expected_response = [{
+            'brand': 'Shimano',
+            'distributor': 'Madison',
+            'link': 'https://www.madisonb2b.co.uk/', 
+            'model': 'LG700',
+            'part_number': 'CSLG70011145',
+            'ratio': '11-45',
+            'rrp': 129.99,
+            'speed': 11, 
+            'stock_status': 1
+            }]
+            
+    
+        self.assertAlmostEqual(response.get_json(), expected_response)
+
+    def test_api_route_drop(self):  
+        response = self.client.get('/__drop')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {"message": "Database dropped"})
+
+if __name__ == '__main__':
+    unittest.main()
+
         # test_database = Database(dbname = ':memory:')
 
         # cassettes_table = CassettesTable(db=test_database)
@@ -52,33 +84,4 @@ class FlaskintegrationTestCase(unittest.TestCase):
         # distributors_table.create()
         # distributors_table.seed()
 
-        # stock_table = StockTable(db=test_database)
-        # stock_table.create()
-        # stock_table.insert([["CSLG70011145", 1, 6]])
         
-        self.client.get('/__seed')
-        # print("Cassettes Table Contents:", cassettes_table.select(f"SELECT * FROM {cassettes_table.table_name}", []))
-        response = self.client.get('/speed/11/ratio/11-45/brand/Shimano')
-        self.assertEqual(response.status_code, 200)
-        print("Actual Response:", response.get_json())
-
-        expected_response = {
-            "brand": "Shimano",
-            "distributor": "Madison",
-            "link": "https://www.madisonb2b.co.uk/",
-            "model": "LG700",
-            "part_number": "CSLG70011145",
-            "ratio": "11-45",
-            "rrp": 129.99,
-            "speed": 11
-        }
-    
-        self.assertEqual(response.get_json(), expected_response)
-
-    def test_api_route_drop(self):  
-        response = self.client.get('/__drop')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"message": "Database dropped"})
-
-if __name__ == '__main__':
-    unittest.main()

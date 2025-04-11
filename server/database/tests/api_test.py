@@ -71,5 +71,52 @@ class FlaskintegrationTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"message": "Database dropped"})
 
+    def test_api_route_skus(self):
+        stock_table = StockTable(db=self.database)
+        stock_table.create()
+        stock_table.insert([["CSHG4008145", 0, 6]])
+        seed = self.client.get('/__seed')
+        self.assertEqual(seed.status_code, 200)
+        response = self.client.get('/__skus')
+        self.assertEqual(response.status_code, 200)
+        print("Actual Response:", response.get_json())
+
+        actual_response = response.get_json()
+        # extract only the first sku from the response
+        first_response = actual_response[0] if actual_response else None
+        expected_response = 'CSHG4008145'
+            
+        self.assertEqual(first_response, expected_response)
+
+    def test_api_route_stock(self):
+        # Create the stock table
+        stock_table = StockTable(db=self.database)
+        stock_table.create()
+
+        # Define the data to be sent in the POST request
+        stock_data = [
+            ["CSHG4008145", 0, 6],  # part_number, stock_status, distributor_id
+            ["CSLG70011145", 1, 6]
+        ]
+
+        # Send a POST request to the /stock endpoint
+        response = self.client.post("/stock", json=stock_data)
+
+        # Assert that the response status code is 200
+        self.assertEqual(response.status_code, 200)
+
+        # Query the stock table to verify the data was inserted
+        inserted_data = stock_table.select(f"SELECT * FROM {stock_table.table_name}", [])
+        print("Inserted Data:", inserted_data)
+
+        # Define the expected data in the stock table
+        expected_data = [
+            (1, "CSHG4008145", 0, 6),  # id, part_number, stock_status, distributor_id
+            (2, "CSLG70011145", 1, 6)
+        ]
+
+        # Assert that the inserted data matches the expected data
+        self.assertEqual(inserted_data, expected_data)
+
 if __name__ == '__main__':
     unittest.main()        

@@ -72,16 +72,4 @@ class FlaskintegrationTestCase(unittest.TestCase):
         self.assertEqual(response.json, {"message": "Database dropped"})
 
 if __name__ == '__main__':
-    unittest.main()
-
-        # test_database = Database(dbname = ':memory:')
-
-        # cassettes_table = CassettesTable(db=test_database)
-        # cassettes_table.create()
-        # cassettes_table.seed()
-
-        # distributors_table = DistributorTable(db=test_database)
-        # distributors_table.create()
-        # distributors_table.seed()
-
-        
+    unittest.main()        

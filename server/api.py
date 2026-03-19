@@ -23,15 +23,16 @@ def home():
 
 @app.route("/__seed")
 def seed():
-    distributors = DistributorTable(db=app.config["DATABASE"])
-    distributors.create()
-    distributors.seed()
-    d = distributors.select(f"SELECT * FROM {distributors.table_name}",[])
+    db = Database()
 
+    distributors = DistributorTable(db=db)
+    distributors.create() # type: ignore
+    distributors.seed() # type: ignore
+    d = distributors.select(f"SELECT * FROM {distributors.table_name}",[]) # type: ignore
 
-    cassettes = CassettesTable(db=app.config["DATABASE"])
-    cassettes.create()
-    c = cassettes.seed()
+    cassettes = CassettesTable(db=db)
+    cassettes.create() # type: ignore
+    c = cassettes.seed() # type: ignore
 
     response = {"distributors": d, "cassettes": c}
 
@@ -43,9 +44,13 @@ def seed():
 
 
 @app.route("/speed/<speed>/ratio/<ratio>/brand/<brand>")
-def cassettes(speed, ratio, brand):
-    table = CassettesTable(db=app.config["DATABASE"])
-    result = table.get_cassettes(speed=speed, ratio=ratio, brand=brand)
+def cassettes(speed, ratio, brand): # type: ignore
+    print(f"Speed: {speed}")
+    print(f"Ratio: {ratio}")
+    print(f"Brand: {brand}")
+
+    table = CassettesTable()
+    result = table.get_cassettes(speed=speed, ratio=ratio, brand=brand) # type: ignore
     return jsonify(result)
 
 @app.route("/__drop")

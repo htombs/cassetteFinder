@@ -1,157 +1,353 @@
-        // setup the base API URL to call.
-        // We'll add to this to make the various different API calls
-const apiurl = 'http://localhost:5000';
+// ── CONFIG ──
+const API_URL = "http://localhost:5000";
 
-        // Grab the output HTML element
-const output = document.getElementById('output');
+// ── STATE ──
+let allCassettes = []; // full dataset loaded once on page load
+let filtered = []; // currently displayed subset
+let sortCol = null;
+let sortDir = 1; // 1 = asc, -1 = desc
 
-        // addResult simply takes an "item" JSON object
-        // creates a table row "tr" for that item element
-        // and adds it to the output element
-function addResult(item) {
-        // if it's an object, just add the items to the output html.
-    const result = document.createElement('tr');
-        // NOTE: id's are prefixed with "pn_" just so it has a bit more context when reading them.
-        // result.id = `pn_${item.part_number}`;
-        // result.textContent = `${item.distributor} sells a ${item.brand} ${item.speed} speed ${item.ratio} for £${item.rrp}`;
-        // output.appendChild(result);
-        // this is outdated code that may come in handy in the future
-    const resultBr = document.createElement('td');
-        // this is creating the table data, living within the table row "tr"
-    resultBr.textContent = `${item.brand}`;
-        // showing the brand data from the database
-    result.appendChild(resultBr);
-         // adding the data to the row
+// Speed → ratio mapping built from the live data.
+// Used to cascade the ratio dropdown when a speed is selected.
+const ratiosBySpeed = {};
 
-    const resultCM = document.createElement('td');
-    resultCM.textContent = `${item.model}`; // `` is used to define a string element, ${} is used for grabing js information
-    result.appendChild(resultCM);
+// ── DOM REFS ──
+const output = document.getElementById("output");
+const mobileCards = document.getElementById("mobile-cards");
+const resultCount = document.getElementById("result-count");
+const filterChips = document.getElementById("filter-chips");
+const emptyState = document.getElementById("empty-state");
+const loadingState = document.getElementById("loading-state");
+const searchInput = document.getElementById("search-input");
+const speedSelect = document.getElementById("speed-select");
+const ratioSelect = document.getElementById("ratio-select");
+const brandSelect = document.getElementById("brand-select");
+const btnReset = document.getElementById("btn-reset");
+const btnResetEmpty = document.getElementById("btn-reset-empty");
+const scrollBtn = document.getElementById("scrollToTopBtn");
 
-    const resultSpeed = document.createElement('td');
-    resultSpeed.textContent = `${item.speed}`;
-    result.appendChild(resultSpeed);
+// ── INITIAL DATA LOAD ──
+// Fetch all cassettes once; all filtering is then done client-side
+// so the page feels instant with no submit button required.
+function loadAllCassettes() {
+  showLoading(true);
 
-    const resultRatio = document.createElement('td');
-    resultRatio.textContent = `${item.ratio}`;
-    result.appendChild(resultRatio);
-
-    const resultPN = document.createElement('td');
-    resultPN.textContent = `${item.part_number}`;
-    result.appendChild(resultPN);
-
-    const resultPrice = document.createElement('td');
-    resultPrice.textContent = `£${item.rrp}`; 
-    result.appendChild(resultPrice);
-
-    const resultDistro = document.createElement('td');
-    resultDistro.textContent = `${item.distributor}`;
-    result.appendChild(resultDistro);
-
-    const resultLink = document.createElement('td');
-    const link = document.createElement('a')
-    link.href = item.link 
-    link.textContent = item.distributor;
-    link.target = "_blank"; // this line opens the link in a new window
-    resultLink.appendChild(link);
-    result.appendChild(resultLink);
-
-    output.appendChild(result);
-        // adding the row to the table in the html file
+  fetch(`${API_URL}/all`)
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then((data) => {
+      allCassettes = data;
+      buildRatioMap();
+      buildBrandDropdown();
+      showLoading(false);
+      applyFilters();
+    })
+    .catch((err) => {
+      console.error("Failed to load cassettes:", err);
+      showLoading(false);
+      resultCount.innerHTML = "Could not load data — is the API running?";
+    });
 }
 
-        // This event listener captures the "submit" event that happens when you submit a form
-        // You'll notice, we just grab the form by the tag selector, instead of by ID. 
-        // This is because there's only one form on the page.
-        // WARNING: This event will _also_ fire if another form on this page is submitted as well.
-const form = document.querySelector('form').addEventListener('submit', (evt) => {
-        // prevent the default form action taking place
-        // This stops the page re-loading
-    evt.preventDefault();
+// Build a lookup of { speed: [ratio, ratio, …] } from the live data
+function buildRatioMap() {
+  allCassettes.forEach((item) => {
+    const spd = String(item.speed);
+    if (!ratiosBySpeed[spd]) ratiosBySpeed[spd] = new Set();
+    ratiosBySpeed[spd].add(item.ratio);
+  });
+  // Convert sets to sorted arrays
+  for (const spd in ratiosBySpeed) {
+    ratiosBySpeed[spd] = [...ratiosBySpeed[spd]].sort(ratioSort);
+  }
+  updateRatioDropdown();
+}
 
-        // fetch the selections fromt the Form data we submitted
-    const data = Object.fromEntries(new FormData(evt.target).entries());
+// Build brand dropdown from live data (removes any brands not actually in the DB)
+function buildBrandDropdown() {
+  const brands = [...new Set(allCassettes.map((c) => c.brand))].sort();
+  brandSelect.innerHTML = '<option value="">All brands</option>';
+  brands.forEach((b) => {
+    const opt = document.createElement("option");
+    opt.value = b;
+    opt.textContent = b;
+    brandSelect.appendChild(opt);
+  });
+}
 
-        // clear the results on each submit
-    output.innerHTML = '';
+// ── RATIO DROPDOWN — grouped by small sprocket ──
+// Replaces the flat 50+ option list with optgroups like "10-tooth", "11-tooth" etc.
+function updateRatioDropdown() {
+  const selectedSpeed = speedSelect.value;
+  const currentRatio = ratioSelect.value;
 
-        // build the url we're going to call depending on selections
-    let url = apiurl;
+  // Which ratios to show: only those valid for the selected speed, or all
+  let ratios;
+  if (selectedSpeed && ratiosBySpeed[selectedSpeed]) {
+    ratios = ratiosBySpeed[selectedSpeed];
+  } else {
+    const all = new Set();
+    allCassettes.forEach((c) => all.add(c.ratio));
+    ratios = [...all].sort(ratioSort);
+  }
 
-        // make sure the fields we're checking for do actually exist
-    if (data.speed !== undefined) {
-        if (data.speed != "Any") { 
-            // add the speed path to the base api url if it's not "Any"
-            // NOTE: the '+=' means "add this on to the end of the string"
-            //
-            // This will make the value of "url" "http://localhost:5000/speed/<speed>"
-            url += `/speed/${data.speed}`;
-        } else { 
-            // if speed _is_ Any, change it to all for the api
-            // This will make the value of "url" "http://localhost:5000/speed/all"
-            url += "/speed/all"; 
+  // Group by small sprocket (e.g. "10", "11", "12" …)
+  const groups = {};
+  ratios.forEach((r) => {
+    const small = r.split("-")[0];
+    if (!groups[small]) groups[small] = [];
+    groups[small].push(r);
+  });
 
-        }
+  ratioSelect.innerHTML = '<option value="">All ratios</option>';
+  Object.keys(groups)
+    .sort((a, b) => Number(a) - Number(b))
+    .forEach((small) => {
+      const grp = document.createElement("optgroup");
+      grp.label = `${small}-tooth small sprocket`;
+      groups[small].forEach((r) => {
+        const opt = document.createElement("option");
+        opt.value = r;
+        opt.textContent = r;
+        if (r === currentRatio) opt.selected = true;
+        grp.appendChild(opt);
+      });
+      ratioSelect.appendChild(grp);
+    });
+}
+
+// Sort ratios numerically by small then large sprocket
+function ratioSort(a, b) {
+  const [as, al] = a.split("-").map(Number);
+  const [bs, bl] = b.split("-").map(Number);
+  return as !== bs ? as - bs : al - bl;
+}
+
+// ── FILTERING ──
+function getFilters() {
+  return {
+    search: searchInput.value.trim().toLowerCase(),
+    speed: speedSelect.value,
+    ratio: ratioSelect.value,
+    brand: brandSelect.value,
+  };
+}
+
+function applyFilters() {
+  const f = getFilters();
+
+  filtered = allCassettes.filter((item) => {
+    if (f.speed && String(item.speed) !== f.speed) return false;
+    if (f.ratio && item.ratio !== f.ratio) return false;
+    if (f.brand && item.brand !== f.brand) return false;
+    if (f.search) {
+      const hay =
+        `${item.brand} ${item.model} ${item.part_number} ${item.ratio}`.toLowerCase();
+      if (!hay.includes(f.search)) return false;
+    }
+    return true;
+  });
+
+  if (sortCol) {
+    filtered.sort((a, b) => {
+      let av = a[sortCol],
+        bv = b[sortCol];
+      if (sortCol === "speed" || sortCol === "rrp") {
+        av = Number(av);
+        bv = Number(bv);
+      } else {
+        av = String(av).toLowerCase();
+        bv = String(bv).toLowerCase();
+      }
+      return av < bv ? -sortDir : av > bv ? sortDir : 0;
+    });
+  }
+
+  // Cascade: keep ratio dropdown in sync with selected speed
+  updateRatioDropdown();
+
+  // Mark filters as active
+  searchInput.classList.toggle("is-active", !!f.search);
+  speedSelect.classList.toggle("is-active", !!f.speed);
+  ratioSelect.classList.toggle("is-active", !!f.ratio);
+  brandSelect.classList.toggle("is-active", !!f.brand);
+
+  renderTable();
+  renderCards();
+  renderStatus(f);
+}
+
+// ── RENDER — TABLE (desktop) ──
+function renderTable() {
+  if (filtered.length === 0) {
+    output.innerHTML = "";
+    emptyState.classList.add("visible");
+    return;
+  }
+  emptyState.classList.remove("visible");
+
+  output.innerHTML = filtered
+    .map(
+      (item) => `
+        <tr>
+            <td><strong>${item.brand}</strong></td>
+            <td>${item.model || "—"}</td>
+            <td><span class="badge-speed">${item.speed}spd</span></td>
+            <td><span class="badge-ratio">${item.ratio}</span></td>
+            <td><span class="part-num">${item.part_number}</span></td>
+            <td>£${Number(item.rrp).toFixed(2)}</td>
+            <td>${item.distributor}</td>
+            <td>${
+              item.link
+                ? `<a class="b2b-link" href="${item.link}" target="_blank" rel="noopener">
+                       ${item.distributor} ↗
+                   </a>`
+                : "—"
+            }</td>
+        </tr>
+    `,
+    )
+    .join("");
+}
+
+// ── RENDER — MOBILE CARDS ──
+function renderCards() {
+  if (filtered.length === 0) {
+    mobileCards.innerHTML = "";
+    return;
+  }
+
+  mobileCards.innerHTML = filtered
+    .map(
+      (item) => `
+        <div class="mobile-card">
+            <div class="card-header">
+                <div class="card-brand">${item.brand}</div>
+                <div class="card-model">${item.model || "—"}</div>
+            </div>
+            <div class="card-field">
+                <span class="card-label">Speed</span>
+                <span class="card-value">${item.speed} speed</span>
+            </div>
+            <div class="card-field">
+                <span class="card-label">Ratio</span>
+                <span class="card-value">${item.ratio}</span>
+            </div>
+            <div class="card-field">
+                <span class="card-label">Part No.</span>
+                <span class="card-value" style="font-family:monospace;font-size:0.8rem">${item.part_number}</span>
+            </div>
+            <div class="card-field">
+                <span class="card-label">Price</span>
+                <span class="card-value">£${Number(item.rrp).toFixed(2)}</span>
+            </div>
+            <div class="card-field">
+                <span class="card-label">Distributor</span>
+                <span class="card-value">${item.distributor}</span>
+            </div>
+            <div class="card-field" style="grid-column: 1 / -1">
+                <span class="card-label">B2B Link</span>
+                <span class="card-value">
+                    ${
+                      item.link
+                        ? `<a class="b2b-link" href="${item.link}" target="_blank" rel="noopener">${item.distributor} ↗</a>`
+                        : "—"
+                    }
+                </span>
+            </div>
+        </div>
+    `,
+    )
+    .join("");
+}
+
+// ── RENDER — STATUS BAR ──
+function renderStatus(f) {
+  resultCount.innerHTML = `<strong>${filtered.length}</strong> of ${allCassettes.length} cassettes`;
+
+  const chips = [];
+  if (f.search) chips.push(`"${f.search}"`);
+  if (f.speed) chips.push(`${f.speed} speed`);
+  if (f.ratio) chips.push(f.ratio);
+  if (f.brand) chips.push(f.brand);
+
+  filterChips.innerHTML = chips
+    .map((c) => `<span class="chip">${c}</span>`)
+    .join("");
+}
+
+// ── LOADING STATE ──
+function showLoading(show) {
+  loadingState.classList.toggle("visible", show);
+}
+
+// ── SORT — clicking a <th> sorts by that column ──
+document.querySelectorAll("th[data-col]").forEach((th) => {
+  th.addEventListener("click", () => {
+    const col = th.dataset.col;
+    if (sortCol === col) {
+      sortDir *= -1;
+    } else {
+      sortCol = col;
+      sortDir = 1;
     }
 
-    if (data.ratio !== undefined) {
-        if (data.ratio != "Any") { 
-            // add the ratio path to the url after speed if it's not "Any"
-            // This will make the value of "url" "http://localhost:5000/speed/<speed>/ratio/<ratio>"
-            url += `/ratio/${data.ratio}`; 
-        } else {
-            // if ratio _is_ Any, change it to all for the api
-            // This will make the value of "url" "http://localhost:5000/speed/<speed>/ratio/all"
-            url += "/ratio/all";
-        }
-    }
+    // Update sort icons
+    document.querySelectorAll("th[data-col]").forEach((t) => {
+      t.classList.remove("sorted");
+      const ico = t.querySelector(".sort-icon");
+      if (ico) ico.textContent = "↕";
+    });
+    th.classList.add("sorted");
+    const ico = th.querySelector(".sort-icon");
+    if (ico) ico.textContent = sortDir === 1 ? "↑" : "↓";
 
-    if (data.brand !== undefined) {
-        if (data.brand != "Any") {
-            url += `/brand/${data.brand}`;
-        } else {
-            url += "/brand/all";
-        }
-    } 
-        // same rules apply for this if statement as previous ratio and speed
-
-    // Make the call to the API using the URL we've constructed above.
-    fetch(url).then(response => {
-            // Return early if we don't make a successful call to the API
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            // is all went well, translate the response into JSON
-            return response.json();
-        }).then(data => {
-            // first, check if "data" actualy has anything in it
-            if (data.length <= 0) {
-                // If it doesn't, just say we didn't get any results and skip everything else.
-                output.innerHTML = '<li>No results found</li>';
-                return
-            }
-            // Because of how we build the API responses, the data will always be in an array.
-            // So we can reliably call forEach.
-            data.forEach(item => {
-                // Next we need to check if each item in the data object is an array [] or an object {}.
-                if (item.constructor == Array) {
-                    item.forEach(itm => addResult(itm));
-                }
-
-                if (item.constructor == Object) { addResult(item); }
-            });
-
-        }).catch(error => {
-            console.error('Error:', error);
-            output.textContent = 'An error occurred while fetching data.';
-        });
+    applyFilters();
+  });
 });
 
-let scrollToTop = document.getElementById("scrollToTopBtn");
-//  when button on html is clicked, the page jumps to the top
-function scrollToTopBtn() {
-    document.documentElement.scrollTop = 0;
+// ── EVENT LISTENERS ──
+
+// Debounced search: waits 200 ms after the user stops typing before filtering.
+// Prevents running the filter on every single keypress.
+let debounceTimer;
+searchInput.addEventListener("input", () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(applyFilters, 200);
+});
+
+// Dropdowns filter immediately on change (no debounce needed)
+speedSelect.addEventListener("change", applyFilters);
+ratioSelect.addEventListener("change", applyFilters);
+brandSelect.addEventListener("change", applyFilters);
+
+// Reset all filters
+function resetFilters() {
+  searchInput.value = "";
+  speedSelect.value = "";
+  ratioSelect.value = "";
+  brandSelect.value = "";
+  sortCol = null;
+  sortDir = 1;
+  document.querySelectorAll("th[data-col]").forEach((t) => {
+    t.classList.remove("sorted");
+    const ico = t.querySelector(".sort-icon");
+    if (ico) ico.textContent = "↕";
+  });
+  updateRatioDropdown(); // restore full ratio list
+  applyFilters();
 }
 
-// add to the code below to make the table header apear on command rather than 
-// const theader = document.getElementById("theader");
-// theader.classList.add('hidden');
+btnReset.addEventListener("click", resetFilters);
+if (btnResetEmpty) btnResetEmpty.addEventListener("click", resetFilters);
+
+// ── SCROLL TO TOP BUTTON ──
+// Show the button after scrolling 400px
+window.addEventListener("scroll", () => {
+  scrollBtn.style.display = window.scrollY > 400 ? "block" : "none";
+});
+
+// ── KICK OFF ──
+loadAllCassettes();

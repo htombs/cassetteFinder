@@ -1,9 +1,3 @@
-import os
-import sys
-
-# Add the project root to sys.path to resolve 'server' module imports
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from flask import Flask, jsonify
 from flask_cors import CORS
 
@@ -39,6 +33,17 @@ def seed():
 
     return jsonify({"message": "Database seeded", "data": response})
 
+# New endpoint: returns every cassette in one call.
+# The frontend loads this once on page load and filters client-side,
+# which removes the need for a submit button and makes filtering instant.
+@app.route("/all")
+def all_cassettes():
+    table = CassettesTable()
+    result = table.get_cassettes(speed="all", ratio="all", brand="all")
+    return jsonify(result)
+
+
+# Original endpoint kept for backwards compatibility
 @app.route("/speed/<speed>/ratio/<ratio>/brand/<brand>")
 def cassettes(speed, ratio, brand):
     print(f"Speed: {speed}")

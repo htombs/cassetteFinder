@@ -1,142 +1,150 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!doctype html>
+<html lang="en">
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cassette Finder: Home Page</title>
-    <link rel="stylesheet" href="css/styles.css" media="screen" type="text/css"/>
-    <script src="https://kit.fontawesome.com/01f26ab4ac.js" crossorigin="anonymous"></script>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cassette Finder</title>
+    <link
+      rel="stylesheet"
+      href="css/styles.css"
+      media="screen"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="css/styles_mobile.css"
+      media="screen"
+      type="text/css"
+    />
+    <script
+      src="https://kit.fontawesome.com/01f26ab4ac.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <header>
-            <span class="large">Cassette</span>
-            <span class="large">Finder</span>
-            <span class="small">.com</span>
+      <span class="logo-word">Cassette</span>
+      <span class="logo-word">Finder</span>
+      <span class="logo-sub">.com</span>
     </header>
+
     <main>
-        <h3>Use the dropdown boxes below to find the cassette you're looking for</h3>
-        <div class="select_options">
-            <form id="cassette_Selector">
-                <div class="spd_container">
-                    <h5 id="speed">Speed</h5>
-                    <div class="dropdown">
-                        <select name="speed" id="speed_dropdown">
-                            <option value="Any" selected>- Any -</option>
-                            <option value="8">8spd</option>
-                            <option value="9">9spd</option>
-                            <option value="10">10spd</option>
-                            <option value="11">11spd</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="spd_container">
-                <h5 id="ratio">Ratio</h5>
-                <div class="dropdown">
-                    <select name="ratio" id="ratio_dropdown">
-                        <option value="Any" selected>- Any -</option>
-                        <option value="10-42">10-42</option>
-                        <option value="10-45">10-45</option>
-                        <option value="10-46">10-46</option>
-                        <option value="10-51">10-51</option>
-                        <option value="11-23">11-23</option>
-                        <option value="11-25">11-25</option>
-                        <option value="11-26">11-26</option>
-                        <option value="11-27">11-27</option>
-                        <option value="11-28">11-28</option>
-                        <option value="11-29">11-29</option>
-                        <option value="11-30">11-30</option>
-                        <option value="11-32">11-32</option>
-                        <option value="11-34">11-34</option>
-                        <option value="11-36">11-36</option>
-                        <option value="11-38">11-38</option>
-                        <option value="11-39">11-39</option>
-                        <option value="11-40">11-40</option>
-                        <option value="11-41">11-41</option>
-                        <option value="11-42">11-42</option>
-                        <option value="11-43">11-43</option>
-                        <option value="11-45">11-45</option>
-                        <option value="11-46">11-46</option>
-                        <option value="11-48">11-48</option>
-                        <option value="11-50">11-50</option>
-                        <option value="11-51">11-51</option>
-                        <option value="12-23">12-23</option>
-                        <option value="12-25">12-25</option>
-                        <option value="12-26">12-26</option>
-                        <option value="12-27">12-27</option>
-                        <option value="12-28">12-28</option>
-                        <option value="12-29">12-29</option>
-                        <option value="12-30">12-30</option>
-                        <option value="12-32">12-32</option>
-                        <option value="12-34">12-34</option>
-                        <option value="12-36">12-36</option>
-                        <option value="12-42">12-42</option>
-                        <option value="12-46">12-46</option>
-                        <option value="12-50">12-50</option>
-                        <option value="13-23">13-23</option>
-                        <option value="13-26">13-26</option>
-                        <option value="13-28">13-28</option>
-                        <option value="13-29">13-29</option>
-                        <option value="13-30">13-30</option>
-                        <option value="14-23">14-23</option>
-                        <option value="14-28">14-28</option>
-                        <option value="16-23">16-23</option>
-                        <option value="16-27">16-27</option>
-                        <option value="16-29">16-29</option>
-                        <option value="16-30">16-30</option>
-                    </select>
-                </div>
-            </div>
-            <div class="spd_container">
-                <h5 id="brand">Brand</h5>
-                <div class="dropdown">
-                    <select name="brand" id="brand_dropdown">
-                        <option value="Any" selected>-Any-</option>
-                        <option value="Box">Box</option>
-                        <option value="Campagnolo">Campagnolo</option>
-                        <option value="Clarks">Clarks</option>
-                        <option value="Geardrive">Geardrive</option>
-                        <option value="GTB">GTB</option>
-                        <option value="KMC">KMC</option>
-                        <option value="Miche">Miche</option>
-                        <option value="Microshift">Microshift</option>
-                        <option value="S-Ride">S-Ride</option>
-                        <option value="Shimano">Shimano</option>
-                        <option value="SRAM">SRAM</option>
-                        <option value="Sunrace">Sunrace</option>
-                        <option value="Tektro">Tektro</option>
-                        <option value="Tifosi">Tifosi</option>
-                        <option value="TRP">TRP</option>
-                        <option value="UNBRANDED">UNBRANDED</option>
-                    </select>
-                </div>
-            </div>
-                <br>
-                <h3>Then use the product code and the B2B link and you're good to go</h3>
-            <br>
-            <div class="submit_button">
-                <input type="submit" ></input>
-            </div>
-        </form>
-    </div>
-    <table>
-        <thead id="thead">
+      <!-- FILTER BAR -->
+      <div class="filter-bar" id="filter-bar">
+        <div class="filter-group filter-group--wide">
+          <label for="search-input">Search</label>
+          <input
+            type="text"
+            id="search-input"
+            class="text-input"
+            placeholder="Brand, model, part number…"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="filter-group">
+          <label for="speed-select">Speed</label>
+          <select id="speed-select">
+            <option value="">All speeds</option>
+            <option value="8">8 speed</option>
+            <option value="9">9 speed</option>
+            <option value="10">10 speed</option>
+            <option value="11">11 speed</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="ratio-select">Ratio</label>
+          <select id="ratio-select">
+            <option value="">All ratios</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="brand-select">Brand</label>
+          <select id="brand-select">
+            <option value="">All brands</option>
+          </select>
+        </div>
+
+        <button class="btn-reset" id="btn-reset" title="Clear all filters">
+          &#8635; Reset
+        </button>
+      </div>
+
+      <!-- STATUS BAR -->
+      <div class="status-bar">
+        <span class="result-count" id="result-count">Loading&hellip;</span>
+        <span class="filter-chips" id="filter-chips"></span>
+      </div>
+
+      <!-- HINT -->
+      <p class="hint" id="hint">
+        Select a part number from the results below, then follow the
+        B2B&nbsp;link to order.
+      </p>
+
+      <!-- RESULTS TABLE (desktop) -->
+      <div class="table-wrap">
+        <table id="results-table">
+          <thead>
             <tr>
-                    <th>Brand</th>
-                    <th>Series</th>
-                    <th>Speed</th>
-                    <th>Ratio</th>
-                    <th>Part Number</th>
-                    <th>Price</th>
-                    <th>Distributor</th>
-                    <th>B2B Link</th>
-                </tr>
-            </thead>
-            <tbody id="output"></tbody>
+              <th data-col="brand">
+                Brand <span class="sort-icon">&#8597;</span>
+              </th>
+              <th data-col="model">
+                Model <span class="sort-icon">&#8597;</span>
+              </th>
+              <th data-col="speed">
+                Speed <span class="sort-icon">&#8597;</span>
+              </th>
+              <th data-col="ratio">
+                Ratio <span class="sort-icon">&#8597;</span>
+              </th>
+              <th data-col="part_number">
+                Part Number <span class="sort-icon">&#8597;</span>
+              </th>
+              <th data-col="rrp">
+                Price <span class="sort-icon">&#8597;</span>
+              </th>
+              <th data-col="distributor">
+                Distributor <span class="sort-icon">&#8597;</span>
+              </th>
+              <th>B2B Link</th>
+            </tr>
+          </thead>
+          <tbody id="output"></tbody>
         </table>
+
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">&#9881;</div>
+          <h3>No cassettes found</h3>
+          <p>Try adjusting your filters or clearing the search.</p>
+          <button class="btn-reset btn-reset--inline" id="btn-reset-empty">
+            Clear filters
+          </button>
+        </div>
+
+        <div class="loading-state" id="loading-state">
+          <div class="spinner"></div>
+          <p>Loading cassettes&hellip;</p>
+        </div>
+      </div>
+
+      <!-- MOBILE CARDS -->
+      <div class="mobile-cards" id="mobile-cards"></div>
     </main>
+
     <footer>
-        <button onclick="scrollToTopBtn()" id="scrollToTopBtn" title="Go to Top">Scroll to Top</button>
+      <button
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        id="scrollToTopBtn"
+        title="Back to top"
+      >
+        &#8593; Back to top
+      </button>
     </footer>
+
     <script src="js/script.js"></script>
-</body>
+  </body>
 </html>
